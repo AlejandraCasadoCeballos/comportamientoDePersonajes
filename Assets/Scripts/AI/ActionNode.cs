@@ -17,27 +17,33 @@ public class ActionNode : Node
     public float reevaluationRate;
     public Reevaluation reevaluationMode;
 
+    private bool hasEnded;
+
     public ActionNode(float reevaluationRate = 1f, Reevaluation reevaluationMode = Reevaluation.onlyOnEnd)
     {
         this.reevaluationRate = reevaluationRate;
         this.reevaluationMode = reevaluationMode;
+        hasEnded = false;
     }
 
     public void Begin()
     {
         onBegin?.Invoke();
-        onActionBegin.Invoke();
+        onActionBegin?.Invoke();
+        hasEnded = false;
     }
 
     public void Update()
     {
-        onUpdate?.Invoke();
+        if(!hasEnded)
+            onUpdate?.Invoke();
     }
 
     public void End()
     {
         onEnd?.Invoke();
-        onActionEnded.Invoke();
+        onActionEnded?.Invoke();
+        hasEnded = true;
     }
 
     public ActionNode SetOnBegin(Action action)
