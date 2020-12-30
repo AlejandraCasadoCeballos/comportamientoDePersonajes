@@ -8,4 +8,9 @@ public class Node
     {
         return 1;
     }
+
+    public virtual bool EvaluateBool()
+    {
+        return Evaluate() > 0.5f;
+    }
 }

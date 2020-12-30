@@ -11,13 +11,15 @@ public class SelectorNode : ParentNode
 
     public override bool Evaluate()
     {
-        int count = children.Count;
         Node node;
+        int count = children.Count;
         for(int i = 0; i < count; i++)
         {
             node = children[i];
             if (node.Evaluate())
             {
+                lastNode = node;
+                
                 return true;
             }
         }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParentNode : Node
+public abstract class ParentNode : Node
 {
     protected List<Node> children;
+    public Node lastNode;
 
     public ParentNode(Node[] children = null)
     {
@@ -15,4 +16,6 @@ public class ParentNode : Node
     {
         children.Add(child);
     }
+
+    
 }
