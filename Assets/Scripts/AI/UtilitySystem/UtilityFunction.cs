@@ -7,7 +7,7 @@ using UnityEngine;
 public class UtilityFunction
 {
     public PerceptionNode perception;
-    private Func<float,float> onEdge;
+    private Func<float,float> onEvaluateUtility;
     public ActionNode node;
 
     public UtilityFunction(ActionNode node, PerceptionNode perception)
@@ -16,14 +16,14 @@ public class UtilityFunction
         this.perception = perception;
     }
 
-    public float EdgeFunc()
+    public float EvaluateUtility()
     {
-        return onEdge.Invoke(perception.Evaluate());
+        return onEvaluateUtility.Invoke(perception.Evaluate());
     }
 
-    private UtilityFunction OnEdge(Func<float, float> act)
+    public UtilityFunction SetOnEvaluateUtility(Func<float, float> act)
     {
-        onEdge = act;
+        onEvaluateUtility = act;
         return this;
     }
   
