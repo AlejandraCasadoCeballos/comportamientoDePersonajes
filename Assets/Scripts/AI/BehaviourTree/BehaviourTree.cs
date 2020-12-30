@@ -51,9 +51,9 @@ public class BehaviourTree : MonoBehaviour
             if (currentAction != null && currentAction.reevaluationMode == ActionNode.Reevaluation.atFixedRate)
             {
                 yield return new WaitForSeconds(currentAction.reevaluationRate);
+                Evaluate();
             }
             else yield return new WaitForSeconds(standByReevaluationRate);
-            Evaluate();
         }
     }
 
