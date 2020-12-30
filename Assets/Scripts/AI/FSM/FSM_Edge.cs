@@ -6,13 +6,13 @@ using System;
 public class FSM_Edge : MonoBehaviour
 {
     protected FSM_Node src_node;
-    public FSM_Node dst_node;
+    public FSM_Node dstNode;
     protected List<Func<bool>> conditions; 
 
    public FSM_Edge(FSM_Node nodeA, FSM_Node nodeB, List<Func<bool>> nodeCondition)
    {
         this.src_node = nodeA;
-        this.dst_node = nodeB;
+        this.dstNode = nodeB;
         this.conditions = nodeCondition;
    }
 

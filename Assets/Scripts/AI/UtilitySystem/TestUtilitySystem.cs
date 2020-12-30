@@ -5,14 +5,13 @@ using UnityEngine;
 public class TestUtilitySystem : MonoBehaviour
 {
     UtilitySystem utilitySystem;
+    Evaluator evaluator;
     [SerializeField] private float numP1;
     [SerializeField] private float numP2;
     [SerializeField] private float numP3;
 
     private void Awake()
     {
-        utilitySystem = GetComponent<UtilitySystem>();
-
         PerceptionNode p1 = new PerceptionNode(()=> numP1);
         PerceptionNode p2 = new PerceptionNode(() => numP2);
         PerceptionNode p3 = new PerceptionNode(() => numP3);
@@ -35,6 +34,10 @@ public class TestUtilitySystem : MonoBehaviour
         UtilityFunction u3 = new UtilityFunction(node3, p3).SetOnEvaluateUtility(
             (float per3) => per3);
 
+
+        utilitySystem = new UtilitySystem();
         utilitySystem.SetUtilityFunctions(new HashSet<UtilityFunction>(){u1,u2,u3});
+        evaluator = GetComponent<Evaluator>();
+        evaluator.SetBehaviour(utilitySystem);
     }
 }

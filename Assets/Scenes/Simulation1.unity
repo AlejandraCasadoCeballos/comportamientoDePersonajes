@@ -2483,6 +2483,66 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 786185059}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &795341873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 795341874}
+  - component: {fileID: 795341875}
+  - component: {fileID: 795341876}
+  m_Layer: 0
+  m_Name: TestUtility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &795341874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795341873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.238702, y: 10.711401, z: -21.48772}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &795341875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795341873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  standByReevaluationRate: 1
+--- !u!114 &795341876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795341873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa9a4c4504665e4e97e322fff84e90b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numP1: 2
+  numP2: 1
+  numP3: 3
 --- !u!1001 &816516184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4451,15 +4511,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1496767924}
-  - component: {fileID: 1496767925}
   - component: {fileID: 1496767926}
+  - component: {fileID: 1496767925}
   m_Layer: 0
   m_Name: TestTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1496767924
 Transform:
   m_ObjectHideFlags: 0
@@ -4483,7 +4543,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1496767923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73b73e29ece08dc418245a21df8e5ae5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   standByReevaluationRate: 1

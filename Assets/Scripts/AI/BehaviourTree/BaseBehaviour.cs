@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BaseBehaviour : MonoBehaviour
 {
+    Evaluator evaluator;
     DecisionTree tree;
 
     [SerializeField] bool majorityOfEnemiesInside = true;
@@ -12,8 +13,6 @@ public class BaseBehaviour : MonoBehaviour
 
     private void Start()
     {
-        tree = GetComponent<DecisionTree>();
-
         PerceptionNode p_belongsToATeam = new PerceptionNode(()=> belongsToATeam ? 1f : 0f);
         PerceptionNode p_majorityOfEnemiesInside = new PerceptionNode(() => majorityOfEnemiesInside ? 1f : 0f);
         PerceptionNode p_majorityOfAgentsInside = new PerceptionNode(() => majorityOfAgentsInside ? 1f : 0f);
@@ -76,6 +75,10 @@ public class BaseBehaviour : MonoBehaviour
             st_conquest
         });
 
+        tree = new DecisionTree();
         tree.SetParentNode(st_root);
+
+        evaluator = GetComponent<Evaluator>();
+        evaluator.SetBehaviour(tree);
     }
 }
