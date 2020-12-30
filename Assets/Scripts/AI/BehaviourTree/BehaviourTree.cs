@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node
+public class BehaviourTree
 {
-    virtual public bool Evaluate()
-    {
-        return true;
-    }
+
 }

@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node
+public class SequenceNode : ParentNode
 {
-    virtual public bool Evaluate()
-    {
-        return true;
-    }
+    
 }
