@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestBehaviourTree : MonoBehaviour
+public class BaseBehaviour : MonoBehaviour
 {
-    BehaviourTree tree;
+    DecisionTree tree;
 
     [SerializeField] bool majorityOfEnemiesInside = true;
     [SerializeField] bool belongsToATeam = true;
@@ -12,7 +12,7 @@ public class TestBehaviourTree : MonoBehaviour
 
     private void Start()
     {
-        tree = GetComponent<BehaviourTree>();
+        tree = GetComponent<DecisionTree>();
 
         PerceptionNode p_belongsToATeam = new PerceptionNode(()=> belongsToATeam ? 1f : 0f);
         PerceptionNode p_majorityOfEnemiesInside = new PerceptionNode(() => majorityOfEnemiesInside ? 1f : 0f);

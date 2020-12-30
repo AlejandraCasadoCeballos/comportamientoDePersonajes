@@ -507,16 +507,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: base (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 4448129456765409141, guid: d1d71a4ccdfae6643aff8e6c89558c12,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977428640688321414, guid: d1d71a4ccdfae6643aff8e6c89558c12,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1d71a4ccdfae6643aff8e6c89558c12, type: 3}
 --- !u!4 &128161283 stripped
@@ -4496,6 +4486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b73e29ece08dc418245a21df8e5ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standByReevaluationRate: 1
 --- !u!114 &1496767926
 MonoBehaviour:
   m_ObjectHideFlags: 0

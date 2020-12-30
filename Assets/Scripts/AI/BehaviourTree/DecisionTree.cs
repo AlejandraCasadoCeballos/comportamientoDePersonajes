@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BehaviourTree : MonoBehaviour
+public class DecisionTree : MonoBehaviour
 {
     ParentNode root;
     ActionNode currentAction;
