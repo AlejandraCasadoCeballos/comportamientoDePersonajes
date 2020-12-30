@@ -17,5 +17,9 @@ public abstract class ParentNode : Node
         children.Add(child);
     }
 
-    
+    public override float Evaluate()
+    {
+        lastNode = null;
+        return 1f;
+    }
 }

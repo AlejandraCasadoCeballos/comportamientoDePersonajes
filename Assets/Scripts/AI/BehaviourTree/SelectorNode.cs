@@ -9,20 +9,23 @@ public class SelectorNode : ParentNode
         
     }
 
-    public override bool Evaluate()
+    public override float Evaluate()
     {
+        base.Evaluate();
         Node node;
         int count = children.Count;
+        ParentNode castedNode;
         for(int i = 0; i < count; i++)
         {
             node = children[i];
-            if (node.Evaluate())
+            if (node.EvaluateBool())
             {
-                lastNode = node;
-                
-                return true;
+                castedNode = node as ParentNode;
+                if (castedNode != null) lastNode = castedNode.lastNode;
+                else lastNode = node;
+                return 1f;
             }
         }
-        return false;
+        return 0f;
     }
 }

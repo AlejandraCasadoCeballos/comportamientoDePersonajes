@@ -7,6 +7,9 @@ public class ActionNode : Node
 {
     public enum Reevaluation { onlyOnEnd, atFixedRate};
 
+    public event Action onActionEnded;
+    public event Action onActionBegin;
+
     Action onBegin;
     Action onUpdate;
     Action onEnd;
@@ -23,6 +26,7 @@ public class ActionNode : Node
     public void Begin()
     {
         onBegin?.Invoke();
+        onActionBegin.Invoke();
     }
 
     public void Update()
@@ -33,6 +37,7 @@ public class ActionNode : Node
     public void End()
     {
         onEnd?.Invoke();
+        onActionEnded.Invoke();
     }
 
     public ActionNode SetOnBegin(Action action)
