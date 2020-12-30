@@ -7,13 +7,14 @@ using UnityEngine.Rendering;
 
 public class UtilitySystem : MonoBehaviour 
 {
-    private HashSet<UtilityFunction> utilityFunctions;
+    private HashSet<UtilityFunction> utilityFunctions=new HashSet<UtilityFunction>();
     public ActionNode currentNode;
 
     [SerializeField] private float standByReevaluationRate;
-    public UtilitySystem(HashSet<UtilityFunction> utilityFunctions)
+    public void SetUtilityFunctions(HashSet<UtilityFunction> utilityFunctions)
     {
         this.utilityFunctions = utilityFunctions;
+        Evaluate();
     }
 
     public void Start()
@@ -36,9 +37,10 @@ public class UtilitySystem : MonoBehaviour
             {
                 max = utilityFunction.EvaluateUtility();
                 newNode = utilityFunction.node;
+                
             }
         }
-
+        
         if (currentNode != newNode)
         {
             
@@ -51,7 +53,9 @@ public class UtilitySystem : MonoBehaviour
                 }
                 currentNode.End();
             }
+            Debug.Log(currentNode);
             currentNode = newNode;
+            Debug.Log(currentNode);
             currentNode.Begin();
             switch (currentNode.reevaluationMode)
             {
@@ -67,6 +71,7 @@ public class UtilitySystem : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(currentNode);
             if (currentNode != null && currentNode.reevaluationMode == ActionNode.Reevaluation.atFixedRate)
             {
                 yield return new WaitForSeconds(currentNode.reevaluationRate);
@@ -75,6 +80,7 @@ public class UtilitySystem : MonoBehaviour
             else
             {
                 yield return new WaitForSeconds(standByReevaluationRate);
+                Debug.Log("HOLI");
             }
         }
     }

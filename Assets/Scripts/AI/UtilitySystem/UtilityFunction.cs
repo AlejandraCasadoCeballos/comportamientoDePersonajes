@@ -21,7 +21,7 @@ public class UtilityFunction
         return onEvaluateUtility.Invoke(perception.Evaluate());
     }
 
-    private UtilityFunction OnEvaluateUtility(Func<float, float> act)
+    public UtilityFunction SetOnEvaluateUtility(Func<float, float> act)
     {
         onEvaluateUtility = act;
         return this;
