@@ -11,7 +11,7 @@ public class DecisionTree : Behaviour
 
     override public void Evaluate()
     {
-        Debug.Log("Reevaluating tree");
+        //Debug.Log("Reevaluating tree");
         root.Evaluate();
         ActionNode newAction = root.lastNode as ActionNode;
         if(newAction != null && newAction != currentNode)

@@ -15,6 +15,11 @@ public class Evaluator : MonoBehaviour
         this.behaviour.Evaluate();
     }
 
+    public void Evaluate()
+    {
+        behaviour?.Evaluate();
+    }
+
     private void OnEnable()
     {
         StopAllCoroutines();
@@ -35,7 +40,10 @@ public class Evaluator : MonoBehaviour
                 yield return new WaitForSeconds(behaviour.currentNode.reevaluationRate);
                 behaviour.Evaluate();
             }
-            else yield return new WaitForSeconds(standByReevaluationRate);
+            else
+            {
+                yield return new WaitForSeconds(standByReevaluationRate);
+            }
         }
     }
 }
