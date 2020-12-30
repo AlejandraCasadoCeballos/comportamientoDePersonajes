@@ -5,15 +5,16 @@ using System;
 
 public class PerceptionNode : Node
 {
-    Func<bool> evaluationFunc;
+    Func<float> evaluationFunc;
 
-    public PerceptionNode(Func<bool> func)
+    public PerceptionNode(Func<float> func)
     {
         evaluationFunc = func;
     }
 
-    override public bool Evaluate()
+    public override float Evaluate()
     {
-        return evaluationFunc != null ? evaluationFunc() : true;
+
+        return evaluationFunc != null ? evaluationFunc() : 1;
     }
 }

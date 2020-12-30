@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Node
-{
-    virtual public bool Evaluate()
+{ 
+    public virtual float Evaluate()
     {
-        return true;
+        return 1;
     }
 }
