@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.3}
   m_Children: []
   m_Father: {fileID: 8805765357604963345}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 90.00001}
 --- !u!33 &4801116420533230744
 MeshFilter:
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 2323966593078697179}
   - component: {fileID: 4141303579075355467}
   m_Layer: 0
-  m_Name: brazoIzq
+  m_Name: leftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,10 +105,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4957940211582723446}
   m_LocalRotation: {x: -0.5, y: 0.49999985, z: 0.50000006, w: 0.5000002}
-  m_LocalPosition: {x: -0.00000047683716, y: 0.61763453, z: 0.04093361}
+  m_LocalPosition: {x: 0.05663061, y: 0.5369711, z: 0.50441027}
   m_LocalScale: {x: 0.123548985, y: 0.123548985, z: 0.123548985}
   m_Children: []
-  m_Father: {fileID: 8805765357604963345}
+  m_Father: {fileID: 4610998443111093888}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 90.00001}
 --- !u!33 &2323966593078697179
@@ -158,6 +158,38 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &5634004799294596978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4610998443111093888}
+  m_Layer: 0
+  m_Name: arms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4610998443111093888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634004799294596978}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.05663109, y: 0.08066344, z: -0.46347666}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3343306093270781699}
+  - {fileID: 6645130077929543275}
+  m_Father: {fileID: 8805765357604963345}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6949781418064559325
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +220,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.3}
   m_Children: []
   m_Father: {fileID: 8805765357604963345}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 90.00001}
 --- !u!33 &1591577784955605983
 MeshFilter:
@@ -267,10 +299,9 @@ Transform:
   m_LocalPosition: {x: 3.4299998, y: 2.24, z: 6.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3343306093270781699}
-  - {fileID: 6645130077929543275}
   - {fileID: 1543302542398227713}
   - {fileID: 5881759111174643945}
+  - {fileID: 4610998443111093888}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -329,7 +360,7 @@ GameObject:
   - component: {fileID: 493749554160549953}
   - component: {fileID: 8463255217535587314}
   m_Layer: 0
-  m_Name: brazoDch
+  m_Name: rightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,10 +374,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8535141595158944435}
   m_LocalRotation: {x: -0.5, y: 0.5000001, z: -0.50000006, w: -0.4999999}
-  m_LocalPosition: {x: -0.00000047683716, y: 0.61763453, z: 0.04093361}
+  m_LocalPosition: {x: 0.05663061, y: 0.5369711, z: 0.50441027}
   m_LocalScale: {x: -0.123548985, y: -0.123548985, z: -0.123548985}
   m_Children: []
-  m_Father: {fileID: 8805765357604963345}
+  m_Father: {fileID: 4610998443111093888}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: -270}
 --- !u!33 &493749554160549953

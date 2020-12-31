@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TeamManager : MonoBehaviour
 {
-
     [SerializeField] int dronADCountPerTeam = 10;
     [SerializeField] GameObject dronADPrefab;
     [SerializeField] int dronCACCountPerTeam = 10;
@@ -25,9 +24,29 @@ public class TeamManager : MonoBehaviour
         enemySpawnQueues = new Queue<DronBehaviour>[numTeams];
         DronBehaviour dronBehaviour;
         GameObject obj;
+        Material dronADMat;
+        Material dronCACMat;
+        Material recruiterMat;
+        MeshRenderer renderer;
+
+        List<MeshRenderer> agentRenderers;
+
         for(int i = 0; i < numTeams; i++)
         {
             enemySpawnQueues[i] = new Queue<DronBehaviour>();
+
+            renderer = dronADPrefab.GetComponentInChildren<MeshRenderer>();
+            dronADMat = Instantiate(renderer.sharedMaterial);
+            dronADMat.SetColor("AlbedoTint", teamColors[i]);
+
+            renderer = dronCACPrefab.GetComponentInChildren<MeshRenderer>();
+            dronCACMat = Instantiate(renderer.sharedMaterial);
+            dronCACMat.SetColor("AlbedoTint", teamColors[i]);
+
+            renderer = recruiterPrefab.GetComponentInChildren<MeshRenderer>();
+            recruiterMat = Instantiate(renderer.sharedMaterial);
+            recruiterMat.SetColor("AlbedoTint", teamColors[i]);
+
             for (int j = 0; j < recruiterCountPerTeam; j++)
             {
                 obj = Instantiate(recruiterPrefab);
@@ -35,6 +54,8 @@ public class TeamManager : MonoBehaviour
                 dronBehaviour = obj.GetComponent<DronBehaviour>();
                 dronBehaviour.team = i;
                 enemySpawnQueues[i].Enqueue(dronBehaviour);
+                agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
+                foreach (var r in agentRenderers) if (r != null) r.sharedMaterial = recruiterMat;
             }
             for (int j = 0; j < dronADCountPerTeam + dronCACCountPerTeam; j++)
             {
@@ -45,6 +66,15 @@ public class TeamManager : MonoBehaviour
                 dronBehaviour = obj.GetComponent<DronBehaviour>();
                 dronBehaviour.team = i;
                 enemySpawnQueues[i].Enqueue(dronBehaviour);
+                agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
+
+                foreach (var r in agentRenderers)
+                {
+                    if(r != null)
+                    {
+                        r.sharedMaterial = j%2==0 ? dronADMat : dronCACMat;
+                    }
+                }
             }
         }
     }

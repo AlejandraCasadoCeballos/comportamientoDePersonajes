@@ -6678,6 +6678,16 @@ PrefabInstance:
       propertyPath: recruiterCountPerTeam
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
+        type: 3}
+      propertyPath: _teams.Array.data[0].r
+      value: 0.1730802
+      objectReference: {fileID: 0}
+    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
+        type: 3}
+      propertyPath: _teams.Array.data[0].g
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4386494335986088365, guid: 807f6dbec6077a44eb1282d3c412388a,
         type: 3}
       propertyPath: m_LocalPosition.x
