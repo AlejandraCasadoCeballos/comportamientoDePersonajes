@@ -31,7 +31,7 @@ public class FSM : Behaviour
 
     override public void Evaluate()
     {
-        if (currentFSMNode == null) return;
+       if (currentFSMNode == null) return;
        foreach (var edge in currentFSMNode.edges)
        {
             if (edge.CheckConditions())

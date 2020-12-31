@@ -17,7 +17,7 @@ public class ActionNode : Node
     public float reevaluationRate;
     public Reevaluation reevaluationMode;
 
-    private bool hasEnded;
+    public bool hasEnded;
 
     public ActionNode(float reevaluationRate = 1f, Reevaluation reevaluationMode = Reevaluation.onlyOnEnd)
     {
@@ -28,9 +28,9 @@ public class ActionNode : Node
 
     public void Begin()
     {
+        hasEnded = false;
         onBegin?.Invoke();
         onActionBegin?.Invoke();
-        hasEnded = false;
     }
 
     public void Update()
@@ -41,9 +41,9 @@ public class ActionNode : Node
 
     public void End()
     {
+        hasEnded = true;
         onEnd?.Invoke();
         onActionEnded?.Invoke();
-        hasEnded = true;
     }
 
     public ActionNode SetOnBegin(Action action)

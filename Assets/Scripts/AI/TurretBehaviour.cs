@@ -42,18 +42,22 @@ public class TurretBehaviour : MonoBehaviour
 
     private void CreateFSM()
     {
-        var idleState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
+        var fsm = new FSM();
+
+        var idleState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
+        idleState.SetOnBegin(() =>
+        {
+            hasShot = false;
+        });
         idleState.SetOnUpdate(() =>
         {
-            RotateToTarget(transform.position + originalForward);
-            Debug.Log("idle");
+            RotateToTarget(turretHead.position + originalForward);
         });
-        var aimState = new FSM_Node(0.2f, ActionNode.Reevaluation.atFixedRate);
+        var aimState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         aimState.SetOnUpdate(() =>
         {
             if(closestEnemy != null)
                 RotateToTarget(closestEnemy.transform.position);
-            Debug.Log("aiming");
         });
         var shootState = new FSM_Node(1f, ActionNode.Reevaluation.onlyOnEnd);
         shootState.SetOnBegin(() =>
@@ -65,15 +69,17 @@ public class TurretBehaviour : MonoBehaviour
 
         var idleToAimEdge = new FSM_Edge(idleState, aimState, new List<Func<bool>>() { GetClosestEnemy });
         var aimToIdleEdge = new FSM_Edge(aimState, idleState, new List<Func<bool>>() { () => !GetClosestEnemy() });
-        var aimToShootEdge = new FSM_Edge(aimState, idleState, new List<Func<bool>>() { EnemyInShootAngle });
-        var shootToIdleEdge = new FSM_Edge(shootState, idleState, new List<Func<bool>>() { ()=>hasShot });
+        var aimToShootEdge = new FSM_Edge(aimState, shootState, new List<Func<bool>>() { EnemyInShootAngle });
+        var shootToIdleEdge = new FSM_Edge(shootState, idleState, new List<Func<bool>>() { ()=>{
+            return hasShot;
+        }});
 
         idleState.AddEdge(idleToAimEdge);
         aimState.AddEdge(aimToIdleEdge);
         aimState.AddEdge(aimToShootEdge);
         shootState.AddEdge(shootToIdleEdge);
 
-        var fsm = new FSM();
+        
         fsm.SetNodes(new FSM_Node[] { idleState, aimState, shootState });
         fsm.SetRoot(idleState);
 
@@ -82,9 +88,10 @@ public class TurretBehaviour : MonoBehaviour
 
     private void RotateToTarget(Vector3 target)
     {
-        float angleY = Vector3.Angle(originalForward, Vector3.ProjectOnPlane(target, -Vector3.up));
+        Debug.DrawLine(turretHead.position, target);
+        float angleY = Vector3.SignedAngle(turretHead.right, Vector3.ProjectOnPlane(target-turretHead.position, Vector3.up), Vector3.up);
         float rotationY = angleY * aimSpeed * Time.deltaTime;
-        if (rotationY > angleY) rotationY = angleY;
+        if (Mathf.Abs(rotationY) > Mathf.Abs(angleY)) rotationY = angleY;
         turretHead.RotateAround(turretHead.position, Vector3.up, rotationY);
     }
 
@@ -125,7 +132,7 @@ public class TurretBehaviour : MonoBehaviour
     {
         if (behaviour.team == baseBehaviour.team) return false;
         Vector3 dirToAgent = behaviour.transform.position - transform.position;
-        float angle = Vector3.Angle(transform.right, dirToAgent);
+        float angle = Vector3.Angle(turretHead.right, dirToAgent);
         return angle < shootAngle * 0.5f && allAgents.Contains(behaviour);
     }
 

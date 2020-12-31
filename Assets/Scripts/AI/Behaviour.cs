@@ -7,31 +7,35 @@ public class Behaviour
     public ActionNode currentNode;
     virtual public void Evaluate()
     {
-
+        
     }
 
-    protected void EndCurrentNode()
+    public void EndCurrentNode()
     {
         if (currentNode != null)
         {
+            if (!currentNode.hasEnded)
+            {
+                currentNode.End();
+            }
+            
             switch (currentNode.reevaluationMode)
             {
                 case ActionNode.Reevaluation.onlyOnEnd:
                     currentNode.onActionEnded -= Evaluate;
                     break;
             }
-            currentNode.End();
         }
     }
 
-    protected void BeginCurrentNode()
+    public void BeginCurrentNode()
     {
-        currentNode?.Begin();
         switch (currentNode.reevaluationMode)
         {
             case ActionNode.Reevaluation.onlyOnEnd:
                 currentNode.onActionEnded += Evaluate;
                 break;
         }
+        currentNode?.Begin();
     }
 }
