@@ -32,9 +32,14 @@ public class BaseBehaviour : MonoBehaviour
         //Set turrets material
         turretMat = Instantiate(GetComponentInChildren<TurretBehaviour>().GetComponentInChildren<MeshRenderer>().sharedMaterial);
         var allTurrets = GetComponentsInChildren<TurretBehaviour>();
+        MeshRenderer[] renderers;
         foreach (var t in allTurrets)
         {
-            t.GetComponentInChildren<MeshRenderer>().sharedMaterial = turretMat;
+            renderers = t.GetComponentsInChildren<MeshRenderer>();
+            foreach(var r in renderers)
+            {
+                r.sharedMaterial = turretMat;
+            }
         }
 
         //Set base material
