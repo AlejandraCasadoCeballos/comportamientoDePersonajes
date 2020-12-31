@@ -25,10 +25,12 @@ public class SpawnerBehaviour : MonoBehaviour
         time = 0.0f;
 
         #region Variables FSM
-        waitingState = new FSM_Node(wait_Generate_Edge);
-        generateState = new FSM_Node(generate_Wait_Edge);
+        waitingState = new FSM_Node();
+        generateState = new FSM_Node();
         generate_Wait_Edge = new FSM_Edge(generateState, waitingState,new List<Func<bool>>() {HasSpawned}); // le meto la función que determina la condición o eso creia
         wait_Generate_Edge = new FSM_Edge(waitingState, generateState, new List<Func<bool>>() {CheckTimeSpawn}) ;
+        waitingState.AddEdge(wait_Generate_Edge);
+        generateState.AddEdge(generate_Wait_Edge);
         baseSpawner = new FSM();
         baseSpawner.AddNode(waitingState);
         baseSpawner.AddNode(generateState);

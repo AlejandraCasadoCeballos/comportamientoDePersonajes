@@ -17,6 +17,10 @@ public class FSM_Node : ActionNode
         this.myEdges.Add(oneEdge); 
     }
 
+    public FSM_Node() : base()
+    {
+        myEdges = new List<FSM_Edge>();
+    }
     public void AddEdge(FSM_Edge edge)
     {
         myEdges.Add(edge);
