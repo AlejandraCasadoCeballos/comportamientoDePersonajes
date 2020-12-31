@@ -15,6 +15,7 @@ public class TurretBehaviour : MonoBehaviour
     [SerializeField] float attackAngle = 200;
     [SerializeField] float shootAngle = 20;
     [SerializeField] float fireDamage = 3;
+    private float timer = 0f;
 
     private SphereCollider rangeTrigger;
 
@@ -29,6 +30,7 @@ public class TurretBehaviour : MonoBehaviour
 
     private void Start()
     {
+        hasShot = false;
         baseBehaviour = GetComponentInParent<BaseBehaviour>();
         SphereCollider collision = GetComponent<SphereCollider>();
         rangeTrigger = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
@@ -45,10 +47,6 @@ public class TurretBehaviour : MonoBehaviour
         var fsm = new FSM();
 
         var idleState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
-        idleState.SetOnBegin(() =>
-        {
-            hasShot = false;
-        });
         idleState.SetOnUpdate(() =>
         {
             RotateToTarget(turretHead.position + originalForward);
@@ -59,24 +57,33 @@ public class TurretBehaviour : MonoBehaviour
             if(closestEnemy != null)
                 RotateToTarget(closestEnemy.transform.position);
         });
-        var shootState = new FSM_Node(1f, ActionNode.Reevaluation.onlyOnEnd);
+        var shootState = new FSM_Node(0.5f, ActionNode.Reevaluation.onlyOnEnd);
         shootState.SetOnBegin(() =>
         {
             Debug.Log("SHOOT");
-            hasShot = true;
-            shootState.End();
+            timer = 0f;
+            hasShot = false;
+        });
+        shootState.SetOnUpdate(() =>
+        {
+            timer += Time.deltaTime;
+            if(timer > rateOfFire)
+            {
+                hasShot = true;
+                shootState.End();
+            }
         });
 
         var idleToAimEdge = new FSM_Edge(idleState, aimState, new List<Func<bool>>() { GetClosestEnemy });
         var aimToIdleEdge = new FSM_Edge(aimState, idleState, new List<Func<bool>>() { () => !GetClosestEnemy() });
         var aimToShootEdge = new FSM_Edge(aimState, shootState, new List<Func<bool>>() { EnemyInShootAngle });
-        var shootToIdleEdge = new FSM_Edge(shootState, idleState, new List<Func<bool>>() { ()=>{
-            return hasShot;
-        }});
+        var shootToAimEdge = new FSM_Edge(shootState, aimState, new List<Func<bool>>() { () => GetClosestEnemy() && hasShot });
+        var shootToIdleEdge = new FSM_Edge(shootState, idleState, new List<Func<bool>>() { () => !GetClosestEnemy() && hasShot });
 
         idleState.AddEdge(idleToAimEdge);
         aimState.AddEdge(aimToIdleEdge);
         aimState.AddEdge(aimToShootEdge);
+        shootState.AddEdge(shootToAimEdge);
         shootState.AddEdge(shootToIdleEdge);
 
         
@@ -130,6 +137,7 @@ public class TurretBehaviour : MonoBehaviour
 
     private bool AgentInShootAngle(DronBehaviour behaviour)
     {
+        if (behaviour == null) return false;
         if (behaviour.team == baseBehaviour.team) return false;
         Vector3 dirToAgent = behaviour.transform.position - transform.position;
         float angle = Vector3.Angle(turretHead.right, dirToAgent);

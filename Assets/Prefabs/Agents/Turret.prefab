@@ -140,10 +140,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretHead: {fileID: 3228151756634163274}
-  aimSpeed: 1
+  aimSpeed: 3
   rateOfFire: 1
   attackRange: 7
   attackAngle: 200
+  shootAngle: 20
   fireDamage: 3
 --- !u!114 &4098378490737229490
 MonoBehaviour:
