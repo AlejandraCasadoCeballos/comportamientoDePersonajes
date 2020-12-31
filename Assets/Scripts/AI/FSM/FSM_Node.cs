@@ -6,9 +6,19 @@ public class FSM_Node : ActionNode
 {
     public List<FSM_Edge> edges;
 
-    public FSM_Node(FSM_Edge[] Edges) : base()
+    public FSM_Node(float rate, ActionNode.Reevaluation reev) : base(rate, reev)
     {
-        this.edges = Edges != null ? new List<FSM_Edge>(Edges) : new List<FSM_Edge>(); //Si no me equivoco aquí puedo crear un nodo que necesariamente no tenga aristas
+        edges = new List<FSM_Edge>();
+    }
+
+    public FSM_Node(FSM_Edge[] edges, float rate, ActionNode.Reevaluation reev) : base(rate, reev)
+    {
+        this.edges = new List<FSM_Edge>(edges);
+    }
+
+    public FSM_Node(FSM_Edge[] edges) : base()
+    {
+        this.edges =new List<FSM_Edge>(edges); //Si no me equivoco aquí puedo crear un nodo que necesariamente no tenga aristas
     }
 
     public FSM_Node(FSM_Edge oneEdge)  : base()

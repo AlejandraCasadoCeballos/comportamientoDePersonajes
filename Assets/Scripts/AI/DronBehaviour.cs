@@ -8,6 +8,6 @@ public class DronBehaviour : MonoBehaviour
 
     private void Update()
     {
-        transform.position -= Vector3.forward*0.1f;
+        //transform.position -= Vector3.forward*0.1f;
     }
 }
