@@ -11,6 +11,12 @@ public class FSM_Node : ActionNode
         this.myEdges = Edges != null ? new List<FSM_Edge>(Edges) : new List<FSM_Edge>(); //Si no me equivoco aquí puedo crear un nodo que necesariamente no tenga aristas
     }
 
+    public FSM_Node(FSM_Edge oneEdge)  : base()
+    {
+        myEdges = new List<FSM_Edge>();
+        this.myEdges.Add(oneEdge); 
+    }
+
     public void AddEdge(FSM_Edge edge)
     {
         myEdges.Add(edge);

@@ -9,10 +9,10 @@ public class FSM_Edge : MonoBehaviour
     public FSM_Node dstNode;
     protected List<Func<bool>> conditions; 
 
-   public FSM_Edge(FSM_Node nodeA, FSM_Node nodeB, List<Func<bool>> nodeCondition)
+   public FSM_Edge(FSM_Node nodeOrigin, FSM_Node nodeDestiny, List<Func<bool>> nodeCondition)
    {
-        this.src_node = nodeA;
-        this.dstNode = nodeB;
+        this.src_node = nodeOrigin;
+        this.dstNode = nodeDestiny;
         this.conditions = nodeCondition;
    }
 
