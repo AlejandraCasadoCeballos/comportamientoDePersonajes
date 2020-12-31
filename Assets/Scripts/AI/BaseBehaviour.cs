@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseBehaviour : MonoBehaviour
 {
     private int majorityTeam = -1;
-    private int team = -1;
+    public int team = -1;
     public bool belongsToATeam { get => team >= 0;  }
     
     private Evaluator evaluator;
@@ -19,9 +19,32 @@ public class BaseBehaviour : MonoBehaviour
     bool isBeingNeutralized { get => team >= 0 && timer > 0f; }
     float timer = 0f;
 
+    [SerializeField] Color neutralColor;
+    [SerializeField] new MeshRenderer renderer;
+    private Material mat;
+
+    private const string emiTintStr = "EmiTint";
+
     private void UpdateColor()
     {
         Debug.Log("team: " + team + " majority: " + majorityTeam + " timer: " + timer + " neutralizing: " + isBeingNeutralized + " conquering: " + isBeingConquered);
+        float lerp = ((Mathf.Sin(timer * Mathf.PI - (Mathf.PI * 0.5f)) + 1f) * 0.5f);
+        if (isBeingConquered)
+        {
+            mat.SetColor(emiTintStr, Color.Lerp(neutralColor, TeamManager.teamColors[majorityTeam], lerp));
+        } else if (isBeingNeutralized)
+        {
+            mat.SetColor(emiTintStr, Color.Lerp(TeamManager.teamColors[team], neutralColor, lerp));
+        } else
+        {
+            if(team < 0)
+            {
+                mat.SetColor(emiTintStr, neutralColor);
+            } else
+            {
+                mat.SetColor(emiTintStr, TeamManager.teamColors[team]);
+            }
+        }
     }
 
     private int CheckMajority()
@@ -77,6 +100,9 @@ public class BaseBehaviour : MonoBehaviour
 
     private void Start()
     {
+        mat = Instantiate(renderer.sharedMaterial);
+        renderer.sharedMaterial = mat;
+
         agentsCount = new int[TeamManager.numTeams];
 
         PerceptionNode p_belongsToATeam = new PerceptionNode(()=> belongsToATeam ? 1f : 0f);
