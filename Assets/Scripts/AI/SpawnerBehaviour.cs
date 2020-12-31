@@ -34,6 +34,7 @@ public class SpawnerBehaviour : MonoBehaviour
         baseSpawner = new FSM();
         baseSpawner.AddNode(waitingState);
         baseSpawner.AddNode(generateState);
+        baseSpawner.SetRoot(waitingState);
         #endregion
 
         for (int i = 0; i < spawnPointsCount; i++)

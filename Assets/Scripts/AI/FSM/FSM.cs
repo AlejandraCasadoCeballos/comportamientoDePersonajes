@@ -8,9 +8,14 @@ public class FSM : Behaviour
     protected List<FSM_Node> nodes;
     protected FSM_Node currentFSMNode;
 
+    public FSM()
+    {
+        this.nodes = new List<FSM_Node>();
+    }
+
     public void SetNodes(FSM_Node[] nodes)
     {
-        this.nodes = nodes != null ? new List<FSM_Node>(nodes) : new List<FSM_Node>();
+        this.nodes = new List<FSM_Node>(nodes);
     }
 
     public void AddNode(FSM_Node Node)
@@ -26,8 +31,9 @@ public class FSM : Behaviour
 
     override public void Evaluate()
     {
-       foreach (var edge in currentFSMNode.myEdges)
-        {
+        if (currentFSMNode == null) return;
+       foreach (var edge in currentFSMNode.edges)
+       {
             if (edge.CheckConditions())
             {
                 EndCurrentNode();
@@ -35,6 +41,6 @@ public class FSM : Behaviour
                 currentNode = currentFSMNode;
                 BeginCurrentNode();
             }
-        }
+       }
     }
 }

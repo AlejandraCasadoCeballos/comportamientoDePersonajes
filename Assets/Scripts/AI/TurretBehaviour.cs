@@ -12,6 +12,7 @@ public class TurretBehaviour : MonoBehaviour
     [SerializeField] float rateOfFire = 1;
     [SerializeField] float attackRange = 6;
     [SerializeField] float attackAngle = 200;
+    [SerializeField] float shootAngle = 20;
     [SerializeField] float fireDamage = 3;
 
     private SphereCollider rangeTrigger;
@@ -32,12 +33,25 @@ public class TurretBehaviour : MonoBehaviour
         originalForward = transform.right;
     }
 
+    private void CreateFSM()
+    {
+        //var idleState = new FSM_Node()
+    }
+
     private bool AgentInAttackAngle(DronBehaviour behaviour)
     {
         if (behaviour.team == baseBehaviour.team) return false;
         Vector3 dirToAgent = behaviour.transform.position - transform.position;
         float angle = Vector3.Angle(originalForward, dirToAgent);
         return angle < attackAngle * 0.5f && allAgents.Contains(behaviour);
+    }
+
+    private bool AgentInShootAngle(DronBehaviour behaviour)
+    {
+        if (behaviour.team == baseBehaviour.team) return false;
+        Vector3 dirToAgent = behaviour.transform.position - transform.position;
+        float angle = Vector3.Angle(transform.right, dirToAgent);
+        return angle < shootAngle * 0.5f && allAgents.Contains(behaviour);
     }
 
     private void OnTriggerEnter(Collider other)
