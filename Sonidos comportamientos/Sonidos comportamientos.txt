@@ -1,0 +1,10 @@
+Sonidos comportanmientos
+Hover -> Dron Vuela.mp3
+Shoot -> Dron Laser.mp3
+CAC -> Dron CAC.mp3
+Spawn? -> no es necesario creo
+Base being captured -> Base capturandose.mp3 / Base capturandose 2.mp3
+Base captured -> Base capturada.mp3
+Shoot turret -> Torreta Laser.mp3
+Enemy dead -> Dron muere.mp3
+Aliado reclutado -> Aliado reclutado.mp3
