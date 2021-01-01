@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BaseMat
-  m_Shader: {fileID: -6465566751694194690, guid: 5d03488422805d644b63bb45a12c4a82,
+  m_Shader: {fileID: -6465566751694194690, guid: 5776cc5e75517dd4ab1c2fafbee79377,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2
