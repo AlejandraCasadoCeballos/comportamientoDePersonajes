@@ -5,9 +5,7 @@ using UnityEngine;
 public class DronBehaviour : MonoBehaviour
 {
     [SerializeField] public int team = 0;
-
-    private void Update()
-    {
-        //transform.position -= Vector3.forward*0.1f;
-    }
+    [SerializeField] public float movementSpeed;
+    [SerializeField] public float maxLife;
+    private float life = 0f;
 }

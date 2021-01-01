@@ -169,7 +169,9 @@ GameObject:
   - component: {fileID: 6867496333678444281}
   - component: {fileID: 4299347056337291986}
   - component: {fileID: 7587879045752400692}
-  - component: {fileID: 616585244234965302}
+  - component: {fileID: 4188278463680124499}
+  - component: {fileID: 8850695917221848296}
+  - component: {fileID: 8727549327368284031}
   m_Layer: 0
   m_Name: dronAd
   m_TagString: Agent
@@ -223,7 +225,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &616585244234965302
+--- !u!114 &4188278463680124499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +234,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 6054508242896364611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d78a175bdd64d2f46b5b418de0bb3b28, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d15cebfcbacb15479058bc24fbda2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+--- !u!114 &8850695917221848296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054508242896364611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  standByReevaluationRate: 1
+--- !u!135 &8727549327368284031
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054508242896364611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}

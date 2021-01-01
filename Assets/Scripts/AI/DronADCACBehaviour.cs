@@ -5,17 +5,28 @@ using UnityEngine.Rendering;
 
 public class DronADCACBehaviour : DronBehaviour
 {
+    [SerializeField] float movementSpeed;
+    [SerializeField] float attackRange;
 
     UtilitySystem utilitySystem;
     Evaluator evaluator;
+    SphereCollider attackRangeTrigger;
 
 
-    private void Awake()
+    private void Start()
+    {
+        attackRangeTrigger = GetComponent<SphereCollider>();
+
+
+        CreateUtilitySystem();
+    }
+
+    private void CreateUtilitySystem()
     {
         PerceptionNode enemyDistance = new PerceptionNode(() => CheckDistance());
         PerceptionNode waitingRecruiter = new PerceptionNode(() => CheckRecruiterWaiting());
         PerceptionNode conquestSignal = new PerceptionNode(() => CheckConquestSignal());
-        PerceptionNode allyBaseIsBeingConquered= new PerceptionNode(() => CheckAllyBaseIsBeingConquered());
+        PerceptionNode allyBaseIsBeingConquered = new PerceptionNode(() => CheckAllyBaseIsBeingConquered());
 
         ActionNode attackEnemy = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
             () => AttackEnemy());
@@ -43,7 +54,7 @@ public class DronADCACBehaviour : DronBehaviour
 
 
         utilitySystem = new UtilitySystem();
-        utilitySystem.SetUtilityFunctions(new HashSet<UtilityFunction>() { u1, u2, u3 });
+        utilitySystem.SetUtilityFunctions(new HashSet<UtilityFunction>() { u1, u2, u3, u4 });
         evaluator = GetComponent<Evaluator>();
         evaluator.SetBehaviour(utilitySystem);
     }
@@ -96,7 +107,4 @@ public class DronADCACBehaviour : DronBehaviour
     {
         //FSM defender base 
     }
-    
-
-
 }
