@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3228151756634163274}
   - component: {fileID: 4781095045887532610}
   - component: {fileID: 5186041460252091480}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 7161298298779900671}
   - component: {fileID: 1708095325921209234}
   - component: {fileID: 4098378490737229490}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standByReevaluationRate: 1
+  paused: 0
 --- !u!1 &3452404355579035441
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ GameObject:
   - component: {fileID: 1318089338709425239}
   - component: {fileID: 7414417733640951546}
   - component: {fileID: 2402524544950301999}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: turretBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}

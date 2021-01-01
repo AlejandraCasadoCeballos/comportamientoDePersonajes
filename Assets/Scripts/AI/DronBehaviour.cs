@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DronBehaviour : MonoBehaviour
 {
-    [SerializeField] public int team = 0;
+    [HideInInspector] public int team = 0;
     [SerializeField] public float movementSpeed;
     [SerializeField] public float maxLife;
-    private float life = 0f;
+    [HideInInspector] public float life = 999f;
+    [HideInInspector] public bool hasRespawned = false;
 }

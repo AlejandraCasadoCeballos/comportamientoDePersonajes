@@ -89,6 +89,7 @@ public class SpawnerBehaviour : MonoBehaviour
             dron.transform.position = spawnPoint.position;
             dron.transform.rotation = spawnPoint.rotation;
             dron.gameObject.SetActive(true);
+            dron.hasRespawned = true;
         }
         spawned = true;
     }

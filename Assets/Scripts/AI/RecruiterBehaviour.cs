@@ -7,11 +7,19 @@ using UnityEngine.Rendering;
 
 public class RecruiterBehaviour : DronBehaviour
 {
+    HashSet<DronADCACBehaviour> recruits = new HashSet<DronADCACBehaviour>();
+
     Evaluator evaluator;
     private void Start()
     {
         evaluator = GetComponent<Evaluator>();
         CreateFSM();
+    }
+
+    public void RecruitAlly(DronADCACBehaviour ally)
+    {
+        ally.recruiter = this;
+        recruits.Add(ally);
     }
 
     private void CreateFSM()
@@ -23,7 +31,15 @@ public class RecruiterBehaviour : DronBehaviour
         var goToEnemyBaseState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         var recruitAllyState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
         var waitRecruitAgentsState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
+        waitRecruitAgentsState.SetOnBegin(() =>
+        {
+            foreach (var r in recruits) r.PushRecruiterIsWaiting();
+        });
         var attackEnemyBaseState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
+        attackEnemyBaseState.SetOnBegin(() =>
+        {
+            foreach (var r in recruits) r.PushRecruiterIsConquering();
+        });
 
         var dieToApproachToAllyEdge = new FSM_Edge(dieState, approachToAllyState, new List<Func<bool>>() { CheckHasRespawned});
         var approachToRecruitEdge = new FSM_Edge(approachToAllyState, recruitAllyState, new List<Func<bool>>() { CheckAllyInRecruitRange });
@@ -38,8 +54,6 @@ public class RecruiterBehaviour : DronBehaviour
         var goBaseToDieEdge = new FSM_Edge(goToEnemyBaseState, dieState, new List<Func<bool>>() { CheckNoMoreLifes });
         var approachToDieEdge = new FSM_Edge(approachToAllyState, dieState, new List<Func<bool>>() { CheckNoMoreLifes });
         var recruitToDieEdge = new FSM_Edge(recruitAllyState, dieState, new List<Func<bool>>() { CheckNoMoreLifes });
-        
-
         
         dieState.AddEdge(dieToApproachToAllyEdge);
         approachToAllyState.AddEdge(approachToRecruitEdge);
