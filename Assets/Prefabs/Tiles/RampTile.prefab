@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1247491281596828624}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RampTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3758394184543482736}
   - component: {fileID: 8573954614269234725}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rampCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4394353970224268381}
   - component: {fileID: 1420375831255103513}
   - component: {fileID: 3760804222472133638}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ramp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

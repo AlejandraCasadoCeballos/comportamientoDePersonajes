@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalTileMat
-  m_Shader: {fileID: -6465566751694194690, guid: 3973b86b45557e44a8064023905f8858, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 32d94a0fd51dba7408d937eaccfc93eb,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -43,11 +44,19 @@ Material:
         m_Texture: {fileID: 2800000, guid: 574f22ea1b84a104c80aa7ae77cde569, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalFromTexture_3CD14D1E_Texture_0:
+        m_Texture: {fileID: 2800000, guid: 574f22ea1b84a104c80aa7ae77cde569, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_BFF3660D_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 574f22ea1b84a104c80aa7ae77cde569, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_FDC3019D_Texture_1:
         m_Texture: {fileID: 2800000, guid: 574f22ea1b84a104c80aa7ae77cde569, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -82,7 +91,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-  m_BuildTextureStacks: []
 --- !u!114 &378311248122218566
 MonoBehaviour:
   m_ObjectHideFlags: 11

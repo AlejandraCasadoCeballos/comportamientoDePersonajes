@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: dronArmsCAC
-  m_Shader: {fileID: -6465566751694194690, guid: f956d658f06cc2a4c8722b3e2d076234,
+  m_Shader: {fileID: -6465566751694194690, guid: ec8105e9b017f5942bcafcb0f2fdd4ec,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2

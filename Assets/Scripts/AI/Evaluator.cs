@@ -6,12 +6,14 @@ public class Evaluator : MonoBehaviour
 {
     private Behaviour behaviour;
     [SerializeField] private float standByReevaluationRate = 1f;
+    public bool paused = false;
 
     public void SetBehaviour(Behaviour behaviour)
     {
         this.behaviour = behaviour;
         StopAllCoroutines();
         StartCoroutine(EvaluateAtFixedRate());
+        this.behaviour.currentNode?.Begin();
         this.behaviour.Evaluate();
     }
 
@@ -28,14 +30,15 @@ public class Evaluator : MonoBehaviour
 
     private void Update()
     {
-        behaviour?.currentNode?.Update();
+        if(!paused)
+            behaviour?.currentNode?.Update();
     }
 
     IEnumerator EvaluateAtFixedRate()
     {
         while (true)
         {
-            if (behaviour != null && behaviour.currentNode != null && behaviour.currentNode.reevaluationMode == ActionNode.Reevaluation.atFixedRate)
+            if (!paused && behaviour != null && behaviour.currentNode != null && behaviour.currentNode.reevaluationMode == ActionNode.Reevaluation.atFixedRate)
             {
                 yield return new WaitForSeconds(behaviour.currentNode.reevaluationRate);
                 behaviour.Evaluate();

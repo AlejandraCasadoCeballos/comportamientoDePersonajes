@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BaseBehaviour : MonoBehaviour
 {
+    public static HashSet<BaseBehaviour> bases = new HashSet<BaseBehaviour>();
+
     [SerializeField] float neutralizationTime = 3f;
     [SerializeField] float conquestTime = 3f;
     [SerializeField] Color neutralColor;
@@ -24,11 +26,12 @@ public class BaseBehaviour : MonoBehaviour
     private const string emiTintStr = "EmiTint";
     private const string albedoTintStr = "AlbedoTint";
 
-    bool isBeingConquered { get => team == -1 && timer > 0f; }
-    bool isBeingNeutralized { get => team >= 0 && timer > 0f; }
+    public bool isBeingConquered { get => team == -1 && timer > 0f; }
+    public bool isBeingNeutralized { get => team >= 0 && timer > 0f; }
 
     private void Start()
     {
+        
         //Set turrets material
         turretMat = Instantiate(GetComponentInChildren<TurretBehaviour>().GetComponentInChildren<MeshRenderer>().sharedMaterial);
         var allTurrets = GetComponentsInChildren<TurretBehaviour>();
@@ -48,6 +51,7 @@ public class BaseBehaviour : MonoBehaviour
 
         //Create behaviour
         CreateDecisionTree();
+        bases.Add(this);
     }
 
     private void UpdateColor()

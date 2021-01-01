@@ -7,10 +7,19 @@ public class FSM : Behaviour
 {
     protected List<FSM_Node> nodes;
     protected FSM_Node currentFSMNode;
+    protected FSM_Node rootNode;
+    public FSM_Node anyState;
 
     public FSM()
     {
         this.nodes = new List<FSM_Node>();
+        anyState = new FSM_Node();
+    }
+
+    public FSM(float anyStateRate)
+    {
+        this.nodes = new List<FSM_Node>();
+        anyState = new FSM_Node(anyStateRate, ActionNode.Reevaluation.atFixedRate);
     }
 
     public void SetNodes(FSM_Node[] nodes)
@@ -27,6 +36,13 @@ public class FSM : Behaviour
     {
         currentFSMNode = node;
         currentNode = node;
+        rootNode = node;
+    }
+
+    public void Restart()
+    {
+        currentFSMNode = rootNode;
+        currentNode = rootNode;
     }
 
     override public void Evaluate()
@@ -42,5 +58,15 @@ public class FSM : Behaviour
                 BeginCurrentNode();
             }
        }
+        foreach (var edge in anyState.edges)
+        {
+            if (edge.CheckConditions())
+            {
+                EndCurrentNode();
+                currentFSMNode = edge.dstNode;
+                currentNode = currentFSMNode;
+                BeginCurrentNode();
+            }
+        }
     }
 }
