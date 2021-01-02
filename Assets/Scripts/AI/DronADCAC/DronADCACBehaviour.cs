@@ -52,7 +52,7 @@ public class DronADCACBehaviour : DronBehaviour
         dronADCACSet.Remove(this);
     }
 
-    public void PushRecruiterIsWaiting()
+    public void PushRecruiterIsWaiting(Vector3 waitingPos)
     {
         recruiterIsWaiting = true;
         recruiterIsConquering = false;

@@ -49,7 +49,7 @@ MonoBehaviour:
   dronCACCountPerTeam: 0
   dronCACPrefab: {fileID: 8178409777404862123, guid: ea76d1456b6bd27418d748536e3e86f4,
     type: 3}
-  recruiterCountPerTeam: 0
+  recruiterCountPerTeam: 1
   recruiterPrefab: {fileID: 4519756234379920191, guid: 3ee0b22060e42b04599372d63afb3bdc,
     type: 3}
   _teams:

@@ -159,15 +159,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  movementSpeed: 74.85
-  maxLife: 0
+  movementSpeed: 3
+  maxLife: 10
   life: 999
   hasRespawned: 0
   ai: {fileID: 0}
-  maxAllies: 0
-  waitPointRange: 15.1
-  recruitRange: 3
+  maxAllies: 1
+  waitPointRange: 3
+  recruitRange: 1.5
   minPercentageOfAllies: 75
+  safeDistance: 3
 --- !u!114 &5596313166753231610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,8 +201,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
+  m_Height: 1.06
+  m_BaseOffset: 0.28
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &7591300839414548651
