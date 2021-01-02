@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  movementSpeed: 10
+  movementSpeed: 3
   maxLife: 20
   life: 999
   hasRespawned: 0

@@ -18,7 +18,7 @@ public class FSM_AttackAD : FSM_Attack
 
     [SerializeField] string state = "";
 
-    void Awake()
+    private void Awake()
     {
         evaluator = GetComponent<Evaluator>();
         dronBehaviour = GetComponentInParent<DronADCACBehaviour>();
@@ -45,7 +45,7 @@ public class FSM_AttackAD : FSM_Attack
             state = "idle";
             dronBehaviour.hasRespawned = false;
 
-            //dronBehaviour.ai.isStopped = false;
+            dronBehaviour.ai.isStopped = false;
             hasShot = false;
             //dronBehaviour.ai.Warp(new Vector3(8.96f, 1.3f, -20.86f));
             Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
@@ -60,7 +60,8 @@ public class FSM_AttackAD : FSM_Attack
             Vector3 dst = dronBehaviour.ai.destination;
             Debug.DrawLine(dronBehaviour.transform.position, dst, dronBehaviour.ai.isStopped ? Color.red : Color.blue);
         });
-
+        var idleToAim = new FSM_Edge(idleState, aimState, new List<Func<bool>>() { () => dronBehaviour.closestEnemy != null });
+        idleState.AddEdge(idleToAim);
         var dieToIdle = new FSM_Edge(dieState, idleState, new List<Func<bool>>()
         {
             ()=>dronBehaviour.hasRespawned,
@@ -71,6 +72,7 @@ public class FSM_AttackAD : FSM_Attack
         {
             timer = 0f;
             state = "shoot";
+            dronBehaviour.ai.isStopped = true;
             //TODO: SHOOT PROJECTILE
         });
         shootState.SetOnUpdate(() =>
@@ -96,16 +98,17 @@ public class FSM_AttackAD : FSM_Attack
         {
             state = "aim";
             hasShot = false;
-            
+            dronBehaviour.ai.isStopped = true;
         });
         aimState.SetOnUpdate(() =>
         {
+            if (dronBehaviour.closestEnemy == null) return;
             Vector3 target = dronBehaviour.closestEnemy.transform.position;
-            Debug.DrawLine(transform.position, target);
-            float angleY = Vector3.SignedAngle(transform.forward, Vector3.ProjectOnPlane(target - transform.position, Vector3.up), Vector3.up);
+            Debug.DrawLine(dronBehaviour.transform.position, target);
+            float angleY = Vector3.SignedAngle(dronBehaviour.transform.forward, Vector3.ProjectOnPlane(target - dronBehaviour.transform.position, Vector3.up), Vector3.up);
             float rotationY = angleY * aimSpeed * Time.deltaTime;
             if (Mathf.Abs(rotationY) > Mathf.Abs(angleY)) rotationY = angleY;
-            transform.RotateAround(transform.position, Vector3.up, rotationY);
+            dronBehaviour.transform.RotateAround(transform.position, Vector3.up, rotationY);
         });
         var aimToShoot = new FSM_Edge(aimState, shootState, new List<Func<bool>>()
         {
