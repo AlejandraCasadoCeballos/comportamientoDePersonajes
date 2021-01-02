@@ -42,14 +42,23 @@ public class FSM_AttackAD : FSM_Attack
 
         idleState.SetOnBegin(() =>
         {
-            state = "begin";
+            state = "idle";
             dronBehaviour.hasRespawned = false;
 
-            dronBehaviour.ai.isStopped = false;
+            //dronBehaviour.ai.isStopped = false;
             hasShot = false;
-
+            //dronBehaviour.ai.Warp(new Vector3(8.96f, 1.3f, -20.86f));
             Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
-            Debug.Log(dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + randomDir * idleDisplacement));
+            Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement*0.5f;
+            
+            //dronBehaviour.ai.destination = dronBehaviour.transform.position + dronBehaviour.transform.forward * 5f;
+            Debug.Log("Calculate path: " + dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst));
+        });
+
+        idleState.SetOnUpdate(() =>
+        {
+            Vector3 dst = dronBehaviour.ai.destination;
+            Debug.DrawLine(dronBehaviour.transform.position, dst, dronBehaviour.ai.isStopped ? Color.red : Color.blue);
         });
 
         var dieToIdle = new FSM_Edge(dieState, idleState, new List<Func<bool>>()

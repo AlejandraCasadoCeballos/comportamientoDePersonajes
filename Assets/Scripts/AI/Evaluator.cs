@@ -17,6 +17,8 @@ public class Evaluator : MonoBehaviour
         this.behaviour.Evaluate();
     }
 
+    
+
     public void Evaluate()
     {
         behaviour?.Evaluate();
@@ -24,6 +26,8 @@ public class Evaluator : MonoBehaviour
 
     private void OnEnable()
     {
+        this.behaviour?.currentNode?.Begin();
+        this.behaviour?.Evaluate();
         StopAllCoroutines();
         StartCoroutine(EvaluateAtFixedRate());
     }

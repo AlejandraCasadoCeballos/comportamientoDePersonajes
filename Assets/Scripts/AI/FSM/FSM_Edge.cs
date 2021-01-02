@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class FSM_Edge : MonoBehaviour
+public class FSM_Edge
 {
     protected FSM_Node src_node;
     public FSM_Node dstNode;

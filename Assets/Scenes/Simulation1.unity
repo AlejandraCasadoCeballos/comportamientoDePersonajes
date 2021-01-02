@@ -128,11 +128,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6992668075203254940, guid: f4c4adc1fc645a94aac45a1dfa5f8518,
-        type: 3}
-      propertyPath: orthographic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6992668075203254941, guid: f4c4adc1fc645a94aac45a1dfa5f8518,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1554,7 +1549,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.13
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 7b4253eaea205464f93681605a60c3d1, type: 2}
 --- !u!1001 &491546599
@@ -2536,64 +2531,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 786185059}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &795341873
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 795341874}
-  - component: {fileID: 795341875}
-  - component: {fileID: 795341876}
-  m_Layer: 0
-  m_Name: TestUtility
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &795341874
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795341873}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.238702, y: 10.711401, z: -21.48772}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &795341875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795341873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  standByReevaluationRate: 1
-  paused: 0
---- !u!114 &795341876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795341873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa9a4c4504665e4e97e322fff84e90b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &840940264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4305,69 +4242,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1495023094}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1496767923
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1496767924}
-  - component: {fileID: 1496767926}
-  - component: {fileID: 1496767925}
-  m_Layer: 0
-  m_Name: TestTree
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1496767924
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496767923}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.462749, y: 2.0788825, z: -23.350677}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1496767925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496767923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  standByReevaluationRate: 1
-  paused: 0
---- !u!114 &1496767926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496767923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b757cbf06159ae843b65b24079a8be7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  neutralizationTime: 3
-  conquestTime: 3
-  neutralColor: {r: 0, g: 0, b: 0, a: 0}
-  renderer: {fileID: 0}
-  team: -1
 --- !u!1001 &1499128574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6415,54 +6289,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeamManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronADPrefab
-      value: 
-      objectReference: {fileID: 6054508242896364611, guid: 0f143bd294b0a714aabd1c7288bbed8c,
-        type: 3}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronCACPrefab
-      value: 
-      objectReference: {fileID: 8178409777404862123, guid: ea76d1456b6bd27418d748536e3e86f4,
-        type: 3}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: recruiterPrefab
-      value: 
-      objectReference: {fileID: 4519756234379920191, guid: 3ee0b22060e42b04599372d63afb3bdc,
-        type: 3}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: recruiterCountPerTeam
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: _teams.Array.data[0].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: _teams.Array.data[0].g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: _teams.Array.data[0].b
-      value: 0.029372692
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronCACCountPerTeam
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronADCountPerTeam
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4386494335986088365, guid: 807f6dbec6077a44eb1282d3c412388a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6501,7 +6327,7 @@ PrefabInstance:
     - target: {fileID: 4386494335986088365, guid: 807f6dbec6077a44eb1282d3c412388a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4386494335986088365, guid: 807f6dbec6077a44eb1282d3c412388a,
         type: 3}

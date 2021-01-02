@@ -43,12 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c3b6d6aea9cc04d810089c34383bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dronADCountPerTeam: 10
-  dronADPrefab: {fileID: 0}
-  dronCACCountPerTeam: 10
-  dronCACPrefab: {fileID: 0}
-  recruiterCountPerTeam: 2
-  recruiterPrefab: {fileID: 0}
+  dronADCountPerTeam: 1
+  dronADPrefab: {fileID: 6054508242896364611, guid: 0f143bd294b0a714aabd1c7288bbed8c,
+    type: 3}
+  dronCACCountPerTeam: 0
+  dronCACPrefab: {fileID: 8178409777404862123, guid: ea76d1456b6bd27418d748536e3e86f4,
+    type: 3}
+  recruiterCountPerTeam: 0
+  recruiterPrefab: {fileID: 4519756234379920191, guid: 3ee0b22060e42b04599372d63afb3bdc,
+    type: 3}
   _teams:
-  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0.029372692, a: 0}
   - {r: 0, g: 0.2597108, b: 1, a: 0}
