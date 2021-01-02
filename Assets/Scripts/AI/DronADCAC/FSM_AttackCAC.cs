@@ -11,6 +11,7 @@ public class FSM_AttackCAC : FSM_Attack
     [SerializeField] float attackSpeed = 1f;
     [SerializeField] float idleDisplacement = 3f;
 
+    float timer;
     bool hasAttacked = false;
 
     [SerializeField] string state;
@@ -34,7 +35,7 @@ public class FSM_AttackCAC : FSM_Attack
         var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>() { () => dronBehaviour.life <= 0f });
         fsm.anyState.AddEdge(anyToDie);
 
-        var approachEnemyState = new FSM_Node();
+        var approachEnemyState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
         approachEnemyState.SetOnBegin(() =>
         {
             state = "approach";
@@ -51,8 +52,11 @@ public class FSM_AttackCAC : FSM_Attack
         {
             if (dronBehaviour.closestEnemy != null)
             {
+                dronBehaviour.ai.stoppingDistance = attackRange;
                 dronBehaviour.ai.SetDestination(dronBehaviour.closestEnemy.transform.position);
+
             }
+            else dronBehaviour.ai.stoppingDistance = 0f;
         });
 
         var dieToApproachEnemy = new FSM_Edge(dieState, approachEnemyState, new List<Func<bool>>()
@@ -60,15 +64,23 @@ public class FSM_AttackCAC : FSM_Attack
             ()=>dronBehaviour.hasRespawned,
         });
 
-        var attackState = new FSM_Node();
+        var attackState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
         attackState.SetOnBegin(() =>
         {
             state = "attack";
             dronBehaviour.ai.isStopped = true;
 
-            hasAttacked = true;
+            hasAttacked = false;
+            timer = 0f;
 
-
+        });
+        attackState.SetOnUpdate(() =>
+        {
+            timer += Time.deltaTime;
+            if(timer >= attackSpeed)
+            {
+                hasAttacked = true;
+            }
         });
 
         var approachToAttack = new FSM_Edge(approachEnemyState, attackState, new List<Func<bool>>()
@@ -80,15 +92,19 @@ public class FSM_AttackCAC : FSM_Attack
                 return (dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude <= attackRange;
                 }
         });
-        var attackToApproach = new FSM_Edge(attackState, approachEnemyState, new List<Func<bool>>()
+        var attackToApproach1 = new FSM_Edge(attackState, approachEnemyState, new List<Func<bool>>()
         {
             ()=>hasAttacked,
-            ()=>(transform.position-dronBehaviour.closestEnemy.transform.position).magnitude > attackRange
+        });
+        var attackToApproach2 = new FSM_Edge(attackState, approachEnemyState, new List<Func<bool>>()
+        {
+            ()=>(dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude > attackRange
         });
 
         dieState.AddEdge(dieToApproachEnemy);
         approachEnemyState.AddEdge(approachToAttack);
-        attackState.AddEdge(attackToApproach);
+        attackState.AddEdge(attackToApproach1);
+        attackState.AddEdge(attackToApproach2);
         fsm.SetNodes(new FSM_Node[] { dieState, approachEnemyState, attackState });
         fsm.SetRoot(approachEnemyState);
         evaluator.SetBehaviour(fsm);
