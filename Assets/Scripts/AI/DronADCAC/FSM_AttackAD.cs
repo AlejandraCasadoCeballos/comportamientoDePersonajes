@@ -25,6 +25,10 @@ public class FSM_AttackAD : FSM_Attack
     {
         fsm = new FSM(0.5f);
         var dieState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
+        dieState.SetOnBegin(() =>
+        {
+            TeamManager.AddDronToQueue(dronBehaviour);
+        });
         var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>() { () => dronBehaviour.life <= 0f });
         fsm.anyState.AddEdge(anyToDie);
 
@@ -71,8 +75,6 @@ public class FSM_AttackAD : FSM_Attack
         });
         shootState.AddEdge(shootToIdle);
 
-
-
         aimState.SetOnBegin(() =>
         {
             hasShot = false;
@@ -91,7 +93,7 @@ public class FSM_AttackAD : FSM_Attack
         {
             () => {
                 Vector3 target = dronBehaviour.closestEnemy.transform.position;
-                return Vector3.Angle(transform.forward, (target-transform.position)) < shootAngle*0.5f;
+                return Vector3.Angle(transform.forward, Vector3.ProjectOnPlane((target-transform.position), Vector3.up)) < shootAngle*0.5f;
                 }
         });
         aimState.AddEdge(aimToShoot);

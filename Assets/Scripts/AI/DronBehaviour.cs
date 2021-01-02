@@ -18,4 +18,9 @@ public class DronBehaviour : MonoBehaviour
         ai=GetComponent<NavMeshAgent>();
         ai.speed = movementSpeed;
     }
+
+    public void ReceiveDamage(float damage)
+    {
+        life -= damage;
+    }
 }

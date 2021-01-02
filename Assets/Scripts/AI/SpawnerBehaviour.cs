@@ -82,7 +82,7 @@ public class SpawnerBehaviour : MonoBehaviour
         if (team < 0) return;
         int i = index < 0 ? UnityEngine.Random.Range(0, spawnPointsCount) : index;
         Transform spawnPoint = spawnPoints[i];
-        Queue<DronBehaviour> queue = TeamManager.enemySpawnQueues[team];
+        Queue<DronBehaviour> queue = TeamManager.dronSpawnQueues[team];
         if(queue.Count > 0)
         {
             DronBehaviour dron = queue.Dequeue();
@@ -90,6 +90,7 @@ public class SpawnerBehaviour : MonoBehaviour
             dron.transform.rotation = spawnPoint.rotation;
             dron.gameObject.SetActive(true);
             dron.hasRespawned = true;
+            dron.life = dron.maxLife;
         }
         spawned = true;
     }

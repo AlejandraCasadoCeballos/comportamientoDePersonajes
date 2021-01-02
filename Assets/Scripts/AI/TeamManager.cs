@@ -16,12 +16,12 @@ public class TeamManager : MonoBehaviour
     public static Color[] teamColors;
     public static int numTeams { get => teamColors.Length; }
 
-    public static Queue<DronBehaviour>[] enemySpawnQueues;
+    public static Queue<DronBehaviour>[] dronSpawnQueues;
 
     private void Awake()
     {
         teamColors = _teams;
-        enemySpawnQueues = new Queue<DronBehaviour>[numTeams];
+        dronSpawnQueues = new Queue<DronBehaviour>[numTeams];
         DronBehaviour dronBehaviour;
         GameObject obj;
         Material dronADMat;
@@ -33,7 +33,7 @@ public class TeamManager : MonoBehaviour
 
         for(int i = 0; i < numTeams; i++)
         {
-            enemySpawnQueues[i] = new Queue<DronBehaviour>();
+            dronSpawnQueues[i] = new Queue<DronBehaviour>();
 
             renderer = dronADPrefab.GetComponentInChildren<MeshRenderer>();
             dronADMat = Instantiate(renderer.sharedMaterial);
@@ -53,7 +53,7 @@ public class TeamManager : MonoBehaviour
                 obj.SetActive(false);
                 dronBehaviour = obj.GetComponent<DronBehaviour>();
                 dronBehaviour.team = i;
-                enemySpawnQueues[i].Enqueue(dronBehaviour);
+                dronSpawnQueues[i].Enqueue(dronBehaviour);
                 agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
                 foreach (var r in agentRenderers) if (r != null) r.sharedMaterial = recruiterMat;
             }
@@ -65,7 +65,7 @@ public class TeamManager : MonoBehaviour
                 obj.SetActive(false);
                 dronBehaviour = obj.GetComponent<DronBehaviour>();
                 dronBehaviour.team = i;
-                enemySpawnQueues[i].Enqueue(dronBehaviour);
+                dronSpawnQueues[i].Enqueue(dronBehaviour);
                 agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
 
                 foreach (var r in agentRenderers)
@@ -77,5 +77,11 @@ public class TeamManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public static void AddDronToQueue(DronBehaviour dron)
+    {
+        dron.gameObject.SetActive(false);
+        dronSpawnQueues[dron.team].Enqueue(dron);
     }
 }

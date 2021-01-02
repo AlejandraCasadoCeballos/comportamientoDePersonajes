@@ -23,6 +23,10 @@ public class FSM_AttackCAC : FSM_Attack
     {
         fsm = new FSM(0.5f);
         var dieState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
+        dieState.SetOnBegin(() =>
+        {
+            TeamManager.AddDronToQueue(dronBehaviour);
+        });
         var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>() { () => dronBehaviour.life <= 0f });
         fsm.anyState.AddEdge(anyToDie);
 
