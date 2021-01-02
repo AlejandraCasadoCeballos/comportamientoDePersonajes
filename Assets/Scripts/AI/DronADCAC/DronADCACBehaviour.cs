@@ -15,7 +15,7 @@ public class DronADCACBehaviour : DronBehaviour
     UtilitySystem utilitySystem;
     Evaluator evaluator;
     SphereCollider attackRangeTrigger;
-    [HideInInspector] public NavMeshAgent ai;
+    
 
     public RecruiterBehaviour recruiter = null;
     private bool recruiterIsWaiting = false;
@@ -36,9 +36,6 @@ public class DronADCACBehaviour : DronBehaviour
 
         attackRangeTrigger = GetComponent<SphereCollider>();
         attackRangeTrigger.radius = enemyDetectionRange;
-
-        ai = GetComponent<NavMeshAgent>();
-        ai.speed = movementSpeed;
 
         CreateUtilitySystem();
     }
