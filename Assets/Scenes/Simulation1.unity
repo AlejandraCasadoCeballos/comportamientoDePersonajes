@@ -6417,51 +6417,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
         type: 3}
-      propertyPath: dronADPrefab
-      value: 
-      objectReference: {fileID: 6054508242896364611, guid: 0f143bd294b0a714aabd1c7288bbed8c,
-        type: 3}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronCACPrefab
-      value: 
-      objectReference: {fileID: 8178409777404862123, guid: ea76d1456b6bd27418d748536e3e86f4,
-        type: 3}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: recruiterPrefab
-      value: 
-      objectReference: {fileID: 4519756234379920191, guid: 3ee0b22060e42b04599372d63afb3bdc,
-        type: 3}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
       propertyPath: recruiterCountPerTeam
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: _teams.Array.data[0].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: _teams.Array.data[0].g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: _teams.Array.data[0].b
-      value: 0.029372692
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronCACCountPerTeam
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386494335986088364, guid: 807f6dbec6077a44eb1282d3c412388a,
-        type: 3}
-      propertyPath: dronADCountPerTeam
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4386494335986088365, guid: 807f6dbec6077a44eb1282d3c412388a,
         type: 3}
