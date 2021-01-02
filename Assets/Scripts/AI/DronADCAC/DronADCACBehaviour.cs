@@ -22,6 +22,7 @@ public class DronADCACBehaviour : DronBehaviour
     private bool recruiterIsConquering = false;
 
     private HashSet<DronBehaviour> enemiesInRange = new HashSet<DronBehaviour>();
+    public static HashSet<DronADCACBehaviour> dronADCACSet=new HashSet<DronADCACBehaviour>();
 
     FSM_GoToWaitingPoint fsm_GoToWaitingPoint;
     FSM_Attack fsm_Attack;
@@ -38,6 +39,17 @@ public class DronADCACBehaviour : DronBehaviour
         attackRangeTrigger.radius = enemyDetectionRange;
 
         CreateUtilitySystem();
+    }
+
+    private void OnEnable()
+    {
+        dronADCACSet.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        recruiter?.recruits.Remove(this);
+        dronADCACSet.Remove(this);
     }
 
     public void PushRecruiterIsWaiting()
@@ -86,7 +98,8 @@ public class DronADCACBehaviour : DronBehaviour
             () => AttackEnemy());
 
         ActionNode goWaitingPoint = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
-            () => GoWaitingPoint());
+            () => GoWaitingPoint()).SetOnEnd(()=>recruiter.recruits.Remove(this));
+
 
         ActionNode conquerEnemyBase = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
             () => ConquerEnemyBase());

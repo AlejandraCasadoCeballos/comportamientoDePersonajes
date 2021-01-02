@@ -9,17 +9,28 @@ using UnityEngine.Rendering;
 public class RecruiterBehaviour : DronBehaviour
 {
     
-    HashSet<DronADCACBehaviour> recruits = new HashSet<DronADCACBehaviour>();
-
+    public HashSet<DronADCACBehaviour> recruits = new HashSet<DronADCACBehaviour>();
     [SerializeField] private int maxAllies;
     [SerializeField] float waitPointRange;
+    [SerializeField] float recruitRange;
+    [SerializeField] int minPercentageOfAllies;
+
+    private float waitingPoint;
     private DronBehaviour dronBehaviour;
-    Evaluator evaluator;
+    private BaseBehaviour closestBase;
+    private Evaluator evaluator;
+    private DronADCACBehaviour closestAlly;
+
     private void Start()
     {
         evaluator = GetComponent<Evaluator>();
         dronBehaviour = GetComponent<DronBehaviour>();
         CreateFSM();
+    }
+
+    private void Update()
+    {
+        if(closestAlly) Debug.DrawLine(transform.position,dronBehaviour.ai.destination,Color.blue);
     }
 
     public void RecruitAlly(DronADCACBehaviour ally)
@@ -35,26 +46,35 @@ public class RecruiterBehaviour : DronBehaviour
         var dieState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
 
         var approachToAllyState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
-        approachToAllyState.SetOnBegin(()=> dronBehaviour.hasRespawned = false);
-
-        var goToEnemyBaseState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
-        goToEnemyBaseState.SetOnBegin(() =>
+        approachToAllyState.SetOnBegin(()=>
         {
-            float minDist=999f;
-            BaseBehaviour closestBase;
-            foreach (var b in BaseBehaviour.bases)
+            dronBehaviour.hasRespawned = false;
+            float minDist = 999f;
+            foreach (var dron in DronADCACBehaviour.dronADCACSet)
             {
-                if ((b.transform.position - this.transform.position).magnitude < minDist && (b.team!=this.team))
+                if ((dron.transform.position - transform.position).magnitude < minDist && (dron.team == team))
                 {
-                    closestBase = b;
+                    closestAlly = dron;
                 }
             }
-            //dronBehaviour.ai.SetDestination(closestBase.transform.position);
-            //dronBehaviour.stopDistance();
-
+            if (closestAlly != null)
+            {
+                Debug.Log("mi posicion es: "+transform.position);
+                Debug.Log("tengo destino: " +closestAlly.transform.position);
+                
+                dronBehaviour.ai.SetDestination(closestAlly.transform.position);
+                Debug.Log(dronBehaviour.ai.destination);
+            }
         });
 
+        var goToEnemyBaseState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
+
         var recruitAllyState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
+        recruitAllyState.SetOnBegin(() =>
+        {
+            dronBehaviour.ai.isStopped = true;
+            RecruitAlly(closestAlly);
+        });
         
         var waitRecruitAgentsState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
         waitRecruitAgentsState.SetOnBegin(() =>
@@ -66,17 +86,18 @@ public class RecruiterBehaviour : DronBehaviour
         attackEnemyBaseState.SetOnBegin(() =>
         {
             foreach (var r in recruits) r.PushRecruiterIsConquering();
+            dronBehaviour.ai.SetDestination(closestBase.transform.position);
         });
 
         var dieToApproachToAllyEdge = new FSM_Edge(dieState, approachToAllyState, new List<Func<bool>>() { CheckHasRespawned});
         var approachToRecruitEdge = new FSM_Edge(approachToAllyState, recruitAllyState, new List<Func<bool>>() { CheckAllyInRecruitRange });
         var recruitToApproachEdge = new FSM_Edge(recruitAllyState, approachToAllyState, new List<Func<bool>>() { ()=>!CheckEnoughAllies() });
-        var recruitToGoBaseEdge = new FSM_Edge(recruitAllyState, goToEnemyBaseState, new List<Func<bool>>() { CheckEnoughAllies });
+        var recruitToGoBaseEdge = new FSM_Edge(recruitAllyState, goToEnemyBaseState, new List<Func<bool>>() { CheckEnoughAllies, CheckNearBase });
         var goBaseToWaitAgentsEdge = new FSM_Edge(goToEnemyBaseState, waitRecruitAgentsState, new List<Func<bool>>() { CheckNearBase });
-        var waitAgentsToApproachEdge = new FSM_Edge(waitRecruitAgentsState, approachToAllyState, new List<Func<bool>>() { ()=>!CheckEnoughAllies() });
-        var waitAgentsToAttackEdge = new FSM_Edge(waitRecruitAgentsState, attackEnemyBaseState, new List<Func<bool>>() { CheckEnoughAllies });
+        var waitAgentsToApproachEdge = new FSM_Edge(waitRecruitAgentsState, approachToAllyState, new List<Func<bool>>() { ()=>!CheckEnoughAlliesToConquer() });
+        var waitAgentsToAttackEdge = new FSM_Edge(waitRecruitAgentsState, attackEnemyBaseState, new List<Func<bool>>() { CheckEnoughAlliesToConquer });
         var attackToApproachEdge = new FSM_Edge(attackEnemyBaseState, approachToAllyState, new List<Func<bool>>() { CheckConqueredBase });
-        var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>() { () => dronBehaviour.life <= 0f });
+        var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>() { CheckNoMoreLifes });
 
         dieState.AddEdge(dieToApproachToAllyEdge);
         approachToAllyState.AddEdge(approachToRecruitEdge);
@@ -98,23 +119,42 @@ public class RecruiterBehaviour : DronBehaviour
 
     private bool CheckAllyInRecruitRange()
     {
-        bool inRange = true;
-        return inRange;
+        return (closestAlly.transform.position-transform.position).magnitude<recruitRange;
     } 
     private bool CheckEnoughAllies()
     {
-        bool enoughAgents = true;
-        return enoughAgents;
-    } 
+        return recruits.Count==maxAllies;
+    }
+    
+    private bool CheckEnoughAlliesToConquer()
+    {
+        return recruits.Count>=(maxAllies*minPercentageOfAllies/100f);
+    }
+
     private bool CheckNearBase()
     {
-        bool nearBase = true;
-        return nearBase;
+        closestBase = null;
+        float minDist = 999f;
+        foreach (var b in BaseBehaviour.bases)
+        {
+            if ((b.transform.position - transform.position).magnitude < minDist && (b.team != team))
+            {
+                closestBase = b;
+            }
+        }
+
+        if (closestBase != null)
+        {
+            waitingPoint = (closestBase.transform.position - transform.position).magnitude - (TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic);
+            dronBehaviour.ai.SetDestination(closestBase.transform.position);
+            dronBehaviour.ai.stoppingDistance=waitingPoint;
+        }
+
+        return closestBase!=null;
     } 
     private bool CheckConqueredBase()
     {
-        bool conquered = true;
-        return conquered;
+        return closestBase.team==team;
     } 
     private bool CheckHasRespawned()
     {
@@ -122,8 +162,7 @@ public class RecruiterBehaviour : DronBehaviour
     } 
     private bool CheckNoMoreLifes()
     {
-        bool alive=true;
-        return alive;
+        return life<=0;
     } 
 
 
