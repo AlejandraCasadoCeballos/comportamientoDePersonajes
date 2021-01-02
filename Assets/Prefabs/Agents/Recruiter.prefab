@@ -159,15 +159,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  movementSpeed: 74.85
+  movementSpeed: 0
   maxLife: 0
   life: 999
   hasRespawned: 0
-  ai: {fileID: 0}
-  maxAllies: 0
-  waitPointRange: 15.1
-  recruitRange: 3
-  minPercentageOfAllies: 75
 --- !u!114 &5596313166753231610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standByReevaluationRate: 1
-  paused: 0
+  paused: 1
 --- !u!195 &991703017230260945
 NavMeshAgent:
   m_ObjectHideFlags: 0
