@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   evaluator: {fileID: 0}
   attackRange: 2
-  attackSpeed: 1
+  attackSpeed: 2
   idleDisplacement: 3
   state: 
 --- !u!114 &5202920456565906798
@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 5856816931360501418}
   - component: {fileID: 8708790370789610496}
   - component: {fileID: 6122443815191619990}
+  - component: {fileID: 5492748978715181349}
   m_Layer: 0
   m_Name: dronCAC
   m_TagString: Agent
@@ -566,6 +567,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standByReevaluationRate: 1
   paused: 0
+--- !u!95 &5492748978715181349
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178409777404862123}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d08f70bdcd7c97b4b9b8eb1e2028d76e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8535141595158944435
 GameObject:
   m_ObjectHideFlags: 0

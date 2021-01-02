@@ -10,18 +10,21 @@ public class FSM_AttackCAC : FSM_Attack
 
     [SerializeField] float attackSpeed = 1f;
     [SerializeField] float idleDisplacement = 3f;
+    [SerializeField] float aimSpeed = 3f;
 
     float timer;
     bool hasAttacked = false;
 
     [SerializeField] string state;
-    
+
+    Animator anim;
 
     private void Awake()
     {
         evaluator = GetComponent<Evaluator>();
         dronBehaviour = GetComponentInParent<DronADCACBehaviour>();
         CreateFSM();
+        anim = GetComponentInParent<Animator>();
     }
 
     private void CreateFSM()
@@ -72,7 +75,7 @@ public class FSM_AttackCAC : FSM_Attack
 
             hasAttacked = false;
             timer = 0f;
-
+            anim.Play("DronCACAttack");
         });
         attackState.SetOnUpdate(() =>
         {
@@ -81,6 +84,13 @@ public class FSM_AttackCAC : FSM_Attack
             {
                 hasAttacked = true;
             }
+
+            Vector3 target = dronBehaviour.closestEnemy.transform.position;
+            Debug.DrawLine(dronBehaviour.transform.position, target);
+            float angleY = Vector3.SignedAngle(dronBehaviour.transform.forward, Vector3.ProjectOnPlane(target - dronBehaviour.transform.position, Vector3.up), Vector3.up);
+            float rotationY = angleY * aimSpeed * Time.deltaTime;
+            if (Mathf.Abs(rotationY) > Mathf.Abs(angleY)) rotationY = angleY;
+            dronBehaviour.transform.RotateAround(transform.position, Vector3.up, rotationY);
         });
 
         var approachToAttack = new FSM_Edge(approachEnemyState, attackState, new List<Func<bool>>()
