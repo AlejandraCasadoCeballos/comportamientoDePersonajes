@@ -11,12 +11,16 @@ public class FSM_AttackAD : FSM_Attack
     [SerializeField] float rateOfFire = 1f;
     [SerializeField] float aimSpeed = 3f;
     [SerializeField] float shootAngle = 10f;
+    [SerializeField] float idleDisplacement = 3f;
     float timer = 0f;
 
     bool hasShot = false;
 
-    void Start()
+    [SerializeField] string state = "";
+
+    void Awake()
     {
+        evaluator = GetComponent<Evaluator>();
         dronBehaviour = GetComponentInParent<DronADCACBehaviour>();
         CreateFSM();
     }
@@ -38,10 +42,14 @@ public class FSM_AttackAD : FSM_Attack
 
         idleState.SetOnBegin(() =>
         {
+            state = "begin";
             dronBehaviour.hasRespawned = false;
 
-            dronBehaviour.ai.isStopped = true;
+            dronBehaviour.ai.isStopped = false;
             hasShot = false;
+
+            Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
+            Debug.Log(dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + randomDir * idleDisplacement));
         });
 
         var dieToIdle = new FSM_Edge(dieState, idleState, new List<Func<bool>>()
@@ -53,7 +61,7 @@ public class FSM_AttackAD : FSM_Attack
         shootState.SetOnBegin(() =>
         {
             timer = 0f;
-
+            state = "shoot";
             //TODO: SHOOT PROJECTILE
         });
         shootState.SetOnUpdate(() =>
@@ -77,6 +85,7 @@ public class FSM_AttackAD : FSM_Attack
 
         aimState.SetOnBegin(() =>
         {
+            state = "aim";
             hasShot = false;
             
         });

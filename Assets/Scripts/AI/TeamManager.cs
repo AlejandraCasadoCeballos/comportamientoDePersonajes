@@ -57,24 +57,48 @@ public class TeamManager : MonoBehaviour
                 agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
                 foreach (var r in agentRenderers) if (r != null) r.sharedMaterial = recruiterMat;
             }
-            for (int j = 0; j < dronADCountPerTeam + dronCACCountPerTeam; j++)
+            List<DronBehaviour> aux = new List<DronBehaviour>();
+            for(int j = 0; j < dronADCountPerTeam; j++)
             {
-                if(j%2 == 0)obj = Instantiate(dronADPrefab);
-                else obj = Instantiate(dronCACPrefab);
-
+                obj = Instantiate(dronADPrefab);
                 obj.SetActive(false);
                 dronBehaviour = obj.GetComponent<DronBehaviour>();
                 dronBehaviour.team = i;
-                dronSpawnQueues[i].Enqueue(dronBehaviour);
+                aux.Add(dronBehaviour);
+                //dronSpawnQueues[i].Enqueue(dronBehaviour);
                 agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
-
                 foreach (var r in agentRenderers)
                 {
-                    if(r != null)
+                    if (r != null)
                     {
-                        r.sharedMaterial = j%2==0 ? dronADMat : dronCACMat;
+                        r.sharedMaterial = dronADMat;
                     }
                 }
+            }
+            for (int j = 0; j < dronCACCountPerTeam; j++)
+            {
+                obj = Instantiate(dronCACPrefab);
+                obj.SetActive(false);
+                dronBehaviour = obj.GetComponent<DronBehaviour>();
+                dronBehaviour.team = i;
+                aux.Add(dronBehaviour);
+                //dronSpawnQueues[i].Enqueue(dronBehaviour);
+                agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
+                foreach (var r in agentRenderers)
+                {
+                    if (r != null)
+                    {
+                        r.sharedMaterial = dronCACMat;
+                    }
+                }
+            }
+            int totalCount = aux.Count;
+            int index;
+            for(int j = 0; j < totalCount; j++)
+            {
+                index = Random.Range(0, totalCount - j);
+                dronSpawnQueues[i].Enqueue(aux[index]);
+                aux.RemoveAt(index);
             }
         }
     }

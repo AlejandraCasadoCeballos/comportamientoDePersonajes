@@ -95,7 +95,7 @@ public class DronADCACBehaviour : DronBehaviour
             () => DefendAllyBase());
 
         UtilityFunction attackEnemyUtility = new UtilityFunction(attackEnemy, enemyDistance).SetOnEvaluateUtility(
-            (float per1) => (1f-per1));
+            (float per1) => (1000f+1f-per1));
 
         UtilityFunction goWaitingPointUtility = new UtilityFunction(goWaitingPoint, waitingRecruiter).SetOnEvaluateUtility(
             (float per2) => per2);

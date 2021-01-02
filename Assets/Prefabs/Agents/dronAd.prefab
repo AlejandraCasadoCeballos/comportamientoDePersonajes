@@ -335,11 +335,11 @@ MonoBehaviour:
   maxLife: 20
   life: 999
   hasRespawned: 0
+  ai: {fileID: 0}
   enemyDetectionRange: 5
   protectionRange: 10
   attackDamage: 3
   recruiterInfluence: 0.5
-  ai: {fileID: 0}
   recruiter: {fileID: 0}
   closestEnemy: {fileID: 0}
 --- !u!114 &8850695917221848296
@@ -387,8 +387,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.15
-  m_BaseOffset: 0.22
+  m_Height: 1.06
+  m_BaseOffset: 0.28
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &8439257559186786544
@@ -454,3 +454,5 @@ MonoBehaviour:
   rateOfFire: 1
   aimSpeed: 3
   shootAngle: 10
+  idleDisplacement: 20
+  state: 
