@@ -17,6 +17,8 @@ public class TurretBehaviour : MonoBehaviour
     [SerializeField] float fireDamage = 3;
     private float timer = 0f;
 
+    public static float attackRangeStatic;
+
     private SphereCollider rangeTrigger;
 
     Vector3 originalForward;
@@ -28,10 +30,14 @@ public class TurretBehaviour : MonoBehaviour
 
     bool hasShot = false;
 
+    public static float distToBase;
+
     private void Start()
     {
+        attackRangeStatic = attackRange;
         hasShot = false;
         baseBehaviour = GetComponentInParent<BaseBehaviour>();
+        distToBase = (transform.position - baseBehaviour.transform.position).magnitude;
         SphereCollider collision = GetComponent<SphereCollider>();
         rangeTrigger = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
         rangeTrigger.center = collision.center;
