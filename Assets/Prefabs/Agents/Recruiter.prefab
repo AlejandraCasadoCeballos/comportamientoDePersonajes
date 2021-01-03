@@ -164,11 +164,16 @@ MonoBehaviour:
   life: 999
   hasRespawned: 0
   ai: {fileID: 0}
+  currentBase: {fileID: 0}
   maxAllies: 1
-  waitPointRange: 3
+  waitPointRange: 5
   recruitRange: 1.5
   minPercentageOfAllies: 75
   safeDistance: 4
+  minDistToWaitingPoint: 0.5
+  timeLimit: 30
+  closestBase: {fileID: 0}
+  state: 
 --- !u!114 &5596313166753231610
 MonoBehaviour:
   m_ObjectHideFlags: 0
