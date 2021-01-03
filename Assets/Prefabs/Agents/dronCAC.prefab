@@ -261,10 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   evaluator: {fileID: 0}
-  attackRange: 0
-  attackSpeed: 1
-  idleDisplacement: 3
-  aimSpeed: 3
   state: 
 --- !u!1 &4957940211582723446
 GameObject:
@@ -548,7 +544,7 @@ MonoBehaviour:
   hasRespawned: 0
   ai: {fileID: 0}
   currentBase: {fileID: 0}
-  enemyDetectionRange: 500
+  enemyDetectionRange: 5
   protectionRange: 10
   attackDamage: 3
   recruiterInfluence: 0.5

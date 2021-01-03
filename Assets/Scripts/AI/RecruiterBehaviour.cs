@@ -5,6 +5,8 @@ using Data.Util;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.AI;
+
 
 public class RecruiterBehaviour : DronBehaviour
 {
@@ -15,12 +17,15 @@ public class RecruiterBehaviour : DronBehaviour
     [SerializeField] float recruitRange;
     [SerializeField] int minPercentageOfAllies;
     [SerializeField] private int safeDistance;
+    [SerializeField] float minDistToWaitingPoint = 0.5f;
 
     private float waitingDistance;
     private DronBehaviour dronBehaviour;
     public BaseBehaviour closestBase;
     private Evaluator evaluator;
     private DronADCACBehaviour closestAlly;
+
+    [SerializeField] string state;
 
     private void Start()
     {
@@ -46,7 +51,7 @@ public class RecruiterBehaviour : DronBehaviour
         var approachToAllyState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         approachToAllyState.SetOnBegin(() =>
         {
-            Debug.Log("a por aliados");
+            state = "approach ally";
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.hasRespawned = false;
             float minDist = 999f;
@@ -71,6 +76,7 @@ public class RecruiterBehaviour : DronBehaviour
         var goToEnemyBaseState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         goToEnemyBaseState.SetOnBegin(() =>
         {
+            state = "goToEnemyBase";
             waitingDistance = (closestBase.transform.position - transform.position).magnitude - (TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic);
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.ai.SetDestination(closestBase.transform.position);
@@ -80,7 +86,7 @@ public class RecruiterBehaviour : DronBehaviour
         var recruitAllyState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
         recruitAllyState.SetOnBegin(() =>
         {
-            Debug.Log("RECLUTANDO");
+            state = "recruiting";
             dronBehaviour.ai.isStopped = true;
             RecruitAlly(closestAlly);
         });
@@ -88,14 +94,16 @@ public class RecruiterBehaviour : DronBehaviour
         var waitRecruitAgentsState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
         waitRecruitAgentsState.SetOnBegin(() =>
         {
-            Debug.Log("waiting");
+            state = "waiting";
             dronBehaviour.ai.isStopped = true;
             foreach (var r in recruits) r.PushRecruiterIsWaiting(transform.position);
         });
         var attackEnemyBaseState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
         attackEnemyBaseState.SetOnBegin(() =>
         {
-            Debug.Log("lets attack");
+            state = "conquering";
+            dronBehaviour.ai.stoppingDistance = 0f;
+            dronBehaviour.ai.isStopped = false;
             foreach (var r in recruits) r.PushRecruiterIsConquering();
         });
 
@@ -129,7 +137,11 @@ public class RecruiterBehaviour : DronBehaviour
 
     private bool CheckInWaitingPoint()
     {
-        return dronBehaviour.ai.isStopped;
+        Vector3 dir = dronBehaviour.transform.position - dronBehaviour.ai.destination;
+        float magnitude = dir.magnitude;
+        float threshold = dronBehaviour.ai.stoppingDistance + minDistToWaitingPoint;
+        bool isStopped = magnitude < threshold;
+        return isStopped;
     }
 
     private bool CheckAllyInRecruitRange()

@@ -43,6 +43,7 @@ public class FSM : Behaviour
     {
         currentFSMNode = rootNode;
         currentNode = rootNode;
+        currentNode.Begin();
     }
 
     override public void Evaluate()

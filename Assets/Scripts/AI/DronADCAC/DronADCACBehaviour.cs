@@ -106,25 +106,41 @@ public class DronADCACBehaviour : DronBehaviour
             () => AttackEnemy());
 
         ActionNode goWaitingPoint = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
-            () => GoWaitingPoint()).SetOnEnd(()=>recruiter.recruits.Remove(this));
+            () => GoWaitingPoint());
 
         ActionNode conquerEnemyBase = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
-            () => ConquerEnemyBase());
+            () => ConquerEnemyBase()).SetOnEnd(() => recruiter.recruits.Remove(this));
 
         ActionNode defendAllyBase = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
             () => DefendAllyBase());
 
         UtilityFunction attackEnemyUtility = new UtilityFunction(attackEnemy, enemyDistance).SetOnEvaluateUtility(
-            (float per1) => (1000f+1f-per1));
+            (float per1) => {
+                float u = (1f - per1) * 0.9f + 0.1f;
+                Debug.Log("att u: " + u);
+                return u;
+                });
 
         UtilityFunction goWaitingPointUtility = new UtilityFunction(goWaitingPoint, waitingRecruiter).SetOnEvaluateUtility(
-            (float per2) => per2);
+            (float per2) => {
+                float u = per2;
+                Debug.Log("goWait u: " + u);
+                return u;
+                });
 
         UtilityFunction conquerEnemyBaseUtility = new UtilityFunction(conquerEnemyBase, conquestSignal).SetOnEvaluateUtility(
-            (float per3) => per3);
+            (float per3) => {
+                float u = per3;
+                Debug.Log("conq u: " + u);
+                return u;
+                });
 
         UtilityFunction defendAllyBaseUtility = new UtilityFunction(defendAllyBase, allyBaseIsBeingConquered).SetOnEvaluateUtility(
-            (float per4) => 1f-per4);
+            (float per4) => {
+                float u = 1f - per4;
+                Debug.Log("def u: " + u);
+                return u;
+                });
 
         utilitySystem = new UtilitySystem();
         utilitySystem.SetUtilityFunctions(new HashSet<UtilityFunction>() { attackEnemyUtility, goWaitingPointUtility, conquerEnemyBaseUtility, defendAllyBaseUtility });

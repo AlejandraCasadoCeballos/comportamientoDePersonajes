@@ -113,6 +113,7 @@ public class FSM_AttackAD : FSM_Attack
         var aimToShoot = new FSM_Edge(aimState, shootState, new List<Func<bool>>()
         {
             () => {
+                if(dronBehaviour.closestEnemy == null) return false;
                 Vector3 target = dronBehaviour.closestEnemy.transform.position;
                 return Vector3.Angle(transform.forward, Vector3.ProjectOnPlane((target-transform.position), Vector3.up)) < shootAngle*0.5f;
                 }
