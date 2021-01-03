@@ -156,8 +156,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8a26ac15aeed4b4ba1edbc12a10a22f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   team: 0
   movementSpeed: 5
   maxLife: 10
@@ -166,13 +166,13 @@ MonoBehaviour:
   ai: {fileID: 0}
   currentBase: {fileID: 0}
   maxAllies: 1
-  waitPointRange: 3
+  waitPointRange: 5
   recruitRange: 1.5
   minPercentageOfAllies: 75
   safeDistance: 4
   minDistToWaitingPoint: 0.5
   closestBase: {fileID: 0}
-  state: 
+  state:
 --- !u!114 &5596313166753231610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,8 +183,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   standByReevaluationRate: 1
   paused: 0
 --- !u!195 &991703017230260945
