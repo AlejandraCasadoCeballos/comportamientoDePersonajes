@@ -48,6 +48,7 @@ MonoBehaviour:
   attackRange: 2
   attackSpeed: 2
   idleDisplacement: 3
+  aimSpeed: 3
   state: 
 --- !u!114 &5202920456565906798
 MonoBehaviour:
@@ -210,6 +211,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2185468265989500022}
+  - component: {fileID: 3768566717773753409}
+  - component: {fileID: 4893942786563975847}
   m_Layer: 0
   m_Name: FSM_ConquerOrDefend
   m_TagString: Untagged
@@ -231,6 +234,38 @@ Transform:
   m_Father: {fileID: 8805765357604963345}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3768566717773753409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2616748425915580452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8b83d5428b7f243b90b2640789804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  standByReevaluationRate: 1
+  paused: 0
+--- !u!114 &4893942786563975847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2616748425915580452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a27868d51e07645bb5b17e53a07973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evaluator: {fileID: 0}
+  attackRange: 0
+  attackSpeed: 1
+  idleDisplacement: 3
+  aimSpeed: 3
+  state: 
 --- !u!1 &4957940211582723446
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,12 +547,16 @@ MonoBehaviour:
   life: 999
   hasRespawned: 0
   ai: {fileID: 0}
+  currentBase: {fileID: 0}
   enemyDetectionRange: 500
   protectionRange: 10
   attackDamage: 3
   recruiterInfluence: 0.5
   recruiter: {fileID: 0}
   closestEnemy: {fileID: 0}
+  targetBase: {fileID: 0}
+  recruiterWaitingPoint: {x: 0, y: 0, z: 0}
+  baseToConquer: {fileID: 0}
 --- !u!195 &5856816931360501418
 NavMeshAgent:
   m_ObjectHideFlags: 0

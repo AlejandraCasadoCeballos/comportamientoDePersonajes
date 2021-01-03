@@ -29,7 +29,7 @@ public class DronADCACBehaviour : DronBehaviour
     FSM_ConquerOrDefend fsm_ConquerOrDefend;
     
     public DronBehaviour closestEnemy;
-    BaseBehaviour targetBase;
+    public BaseBehaviour targetBase;
     public Vector3 recruiterWaitingPoint;
     BaseBehaviour closestAllyBase;
     public BaseBehaviour baseToConquer;

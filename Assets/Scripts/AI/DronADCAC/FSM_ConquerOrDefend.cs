@@ -5,16 +5,7 @@ using System;
 
 public class FSM_ConquerOrDefend : FSM_Attack
 {
-    [SerializeField] float attackRange;
     DronADCACBehaviour dronBehaviour;
-
-    [SerializeField] float attackSpeed = 1f;
-    [SerializeField] float idleDisplacement = 3f;
-    [SerializeField] float aimSpeed = 3f;
-
-    float timer;
-    bool hasAttacked = false;
-    bool hasEnteredBase = false;
 
     [SerializeField] string state;
 
@@ -45,7 +36,6 @@ public class FSM_ConquerOrDefend : FSM_Attack
             state = "approachBase";
             dronBehaviour.hasRespawned = false;
             dronBehaviour.ai.isStopped = false;
-            hasEnteredBase = false;
 
             if(dronBehaviour.targetBase != null)
             {
