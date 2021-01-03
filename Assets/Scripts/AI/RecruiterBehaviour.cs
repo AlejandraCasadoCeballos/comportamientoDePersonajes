@@ -71,7 +71,7 @@ public class RecruiterBehaviour : DronBehaviour
         var goToEnemyBaseState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         goToEnemyBaseState.SetOnBegin(() =>
         {
-            waitingDistance = Math.Abs((closestBase.transform.position - transform.position).magnitude - (TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic));
+            waitingDistance = (closestBase.transform.position - transform.position).magnitude - (TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic);
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.ai.SetDestination(closestBase.transform.position);
             dronBehaviour.ai.stoppingDistance = waitingDistance+safeDistance;
