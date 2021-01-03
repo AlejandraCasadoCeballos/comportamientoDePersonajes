@@ -52,7 +52,7 @@ public class FSM_AttackAD : FSM_Attack
             Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement*0.5f;
             
             //dronBehaviour.ai.destination = dronBehaviour.transform.position + dronBehaviour.transform.forward * 5f;
-            Debug.Log("Calculate path: " + dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst));
+            dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
         });
 
         idleState.SetOnUpdate(() =>

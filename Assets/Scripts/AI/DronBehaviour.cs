@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class DronBehaviour : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class DronBehaviour : MonoBehaviour
     [HideInInspector] public float life;
     [HideInInspector] public bool hasRespawned = false;
     [HideInInspector] public NavMeshAgent ai;
+    [HideInInspector] public BaseBehaviour currentBase;
 
     private void Awake()
     {

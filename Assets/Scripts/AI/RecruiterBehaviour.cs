@@ -18,11 +18,9 @@ public class RecruiterBehaviour : DronBehaviour
 
     private float waitingDistance;
     private DronBehaviour dronBehaviour;
-    private BaseBehaviour closestBase;
+    public BaseBehaviour closestBase;
     private Evaluator evaluator;
     private DronADCACBehaviour closestAlly;
-
-
 
     private void Start()
     {
