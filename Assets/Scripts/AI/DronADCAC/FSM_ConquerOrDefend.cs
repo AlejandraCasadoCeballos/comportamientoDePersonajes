@@ -47,6 +47,10 @@ public class FSM_ConquerOrDefend : FSM_Attack
             if(dronBehaviour.targetBase != null)
             {
                 Debug.DrawLine(dronBehaviour.transform.position, dronBehaviour.targetBase.transform.position, Color.blue);
+                if(dronBehaviour.currentBase == dronBehaviour.targetBase)
+                {
+                    dronBehaviour.recruiterIsConquering = false;
+                }
             }
             
         });

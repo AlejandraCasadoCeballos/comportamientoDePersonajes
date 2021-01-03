@@ -18,8 +18,8 @@ public class DronADCACBehaviour : DronBehaviour
     
 
     public RecruiterBehaviour recruiter = null;
-    private bool recruiterIsWaiting = false;
-    private bool recruiterIsConquering = false;
+    public bool recruiterIsWaiting = false;
+    public bool recruiterIsConquering = false;
 
     private HashSet<DronBehaviour> enemiesInRange = new HashSet<DronBehaviour>();
     public static HashSet<DronADCACBehaviour> dronADCACSet=new HashSet<DronADCACBehaviour>();
