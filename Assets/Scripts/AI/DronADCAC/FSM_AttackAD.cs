@@ -5,7 +5,8 @@ using System;
 
 public class FSM_AttackAD : FSM_Attack
 {
-    [SerializeField] float attackRange;
+    [SerializeField] Transform projectileSpawnPoint;
+    //[SerializeField] float attackRange;
     DronADCACBehaviour dronBehaviour;
 
     [SerializeField] float rateOfFire = 1f;
@@ -74,6 +75,11 @@ public class FSM_AttackAD : FSM_Attack
             state = "shoot";
             dronBehaviour.ai.isStopped = true;
             //TODO: SHOOT PROJECTILE
+            if(dronBehaviour.closestEnemy != null)
+            {
+                var projectile = TeamManager.projectilePool.GetInstance();
+                projectile.GetComponent<Projectile>().Init(projectileSpawnPoint, dronBehaviour.closestEnemy.transform, dronBehaviour.team, dronBehaviour.attackDamage);
+            }
         });
         shootState.SetOnUpdate(() =>
         {
@@ -85,7 +91,7 @@ public class FSM_AttackAD : FSM_Attack
         });
         var shootToAim = new FSM_Edge(shootState, aimState, new List<Func<bool>>()
         {
-            ()=>dronBehaviour.closestEnemy != null
+            ()=>dronBehaviour.closestEnemy != null && hasShot
         });
         shootState.AddEdge(shootToAim);
         var shootToIdle = new FSM_Edge(shootState, idleState, new List<Func<bool>>()

@@ -8,7 +8,7 @@ public class DronADCACBehaviour : DronBehaviour
 {
     [SerializeField] float enemyDetectionRange = 5f;
     [SerializeField] float protectionRange = 10f;
-    [SerializeField] float attackDamage = 3f;
+    [SerializeField] public float attackDamage = 3f;
     
     [SerializeField] float recruiterInfluence = 0.5f;
 
@@ -153,13 +153,23 @@ public class DronADCACBehaviour : DronBehaviour
         closestEnemy = null;
         float minDist = enemyDetectionRange;
         float dist;
+        Vector3 dir;
+        RaycastHit hit;
         foreach(var d in enemiesInRange)
         {
-            dist = (transform.position - d.transform.position).magnitude;
+            dir = (transform.position - d.transform.position);
+            dist = dir.magnitude;
+            
             if(dist <= minDist)
             {
-                minDist = dist;
-                closestEnemy = d;
+                if (Physics.Raycast(transform.position, -dir, out hit, protectionRange))
+                {
+                    if (hit.transform.gameObject == d.gameObject)
+                    {
+                        minDist = dist;
+                        closestEnemy = d;
+                    }
+                }
             }
         }
         return minDist / enemyDetectionRange;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TeamManager : MonoBehaviour
 {
+
     [SerializeField] int dronADCountPerTeam = 10;
     [SerializeField] GameObject dronADPrefab;
     [SerializeField] int dronCACCountPerTeam = 10;
@@ -18,8 +19,14 @@ public class TeamManager : MonoBehaviour
 
     public static Queue<DronBehaviour>[] dronSpawnQueues;
 
+    [SerializeField] ObjectPool _projectilePool;
+    public static ObjectPool projectilePool;
+    [SerializeField] Material projectileMat;
+    [HideInInspector] public static Material[] projectileMats;
+
     private void Awake()
     {
+        projectilePool = _projectilePool;
         teamColors = _teams;
         dronSpawnQueues = new Queue<DronBehaviour>[numTeams];
         DronBehaviour dronBehaviour;
@@ -31,8 +38,14 @@ public class TeamManager : MonoBehaviour
 
         List<MeshRenderer> agentRenderers;
 
+        projectileMats = new Material[numTeams];
+
         for(int i = 0; i < numTeams; i++)
         {
+            projectileMats[i] = Instantiate(projectileMat);
+            projectileMats[i].SetColor("EmiTint", teamColors[i]*0.95f);
+            projectileMats[i].SetColor("AlbedoTint", teamColors[i]);
+
             dronSpawnQueues[i] = new Queue<DronBehaviour>();
 
             renderer = dronADPrefab.GetComponentInChildren<MeshRenderer>();

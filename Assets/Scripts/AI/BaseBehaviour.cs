@@ -105,6 +105,7 @@ public class BaseBehaviour : MonoBehaviour
     {
         
         if (other.tag != "Agent") return;
+        if (other.isTrigger) return;
         DronBehaviour behaviour = other.GetComponent<DronBehaviour>();
         if(behaviour != null && behaviour.team < TeamManager.numTeams)
         {
@@ -117,6 +118,7 @@ public class BaseBehaviour : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.tag != "Agent") return;
+        if (other.isTrigger) return;
         DronBehaviour behaviour = other.GetComponent<DronBehaviour>();
         if (behaviour != null && behaviour.team < TeamManager.numTeams)
         {

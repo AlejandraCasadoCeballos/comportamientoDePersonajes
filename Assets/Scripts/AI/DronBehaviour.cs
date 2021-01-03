@@ -9,7 +9,7 @@ public class DronBehaviour : MonoBehaviour
     [HideInInspector] public int team = 0;
     [SerializeField] public float movementSpeed;
     [SerializeField] public float maxLife;
-    [HideInInspector] public float life;
+    public float life;
     [HideInInspector] public bool hasRespawned = false;
     [HideInInspector] public NavMeshAgent ai;
     [HideInInspector] public BaseBehaviour currentBase;
