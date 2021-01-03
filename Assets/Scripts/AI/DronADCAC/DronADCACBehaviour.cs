@@ -29,6 +29,7 @@ public class DronADCACBehaviour : DronBehaviour
     
     public DronBehaviour closestEnemy;
     BaseBehaviour targetBase;
+    public Vector3 recruiterWaitingPoint;
 
     private void Start()
     {
@@ -54,6 +55,7 @@ public class DronADCACBehaviour : DronBehaviour
 
     public void PushRecruiterIsWaiting(Vector3 waitingPos)
     {
+        recruiterWaitingPoint = waitingPos;
         recruiterIsWaiting = true;
         recruiterIsConquering = false;
         evaluator.Evaluate();
@@ -99,7 +101,6 @@ public class DronADCACBehaviour : DronBehaviour
 
         ActionNode goWaitingPoint = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
             () => GoWaitingPoint()).SetOnEnd(()=>recruiter.recruits.Remove(this));
-
 
         ActionNode conquerEnemyBase = new ActionNode(1f, ActionNode.Reevaluation.atFixedRate).SetOnBegin(
             () => ConquerEnemyBase());

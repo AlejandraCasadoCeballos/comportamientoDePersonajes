@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  movementSpeed: 3
+  movementSpeed: 5
   maxLife: 10
   life: 999
   hasRespawned: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   waitPointRange: 3
   recruitRange: 1.5
   minPercentageOfAllies: 75
-  safeDistance: 3
+  safeDistance: 4
 --- !u!114 &5596313166753231610
 MonoBehaviour:
   m_ObjectHideFlags: 0
