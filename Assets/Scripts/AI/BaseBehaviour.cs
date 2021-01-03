@@ -108,6 +108,7 @@ public class BaseBehaviour : MonoBehaviour
         DronBehaviour behaviour = other.GetComponent<DronBehaviour>();
         if(behaviour != null && behaviour.team < TeamManager.numTeams)
         {
+            behaviour.currentBase = this;
             agentsCount[behaviour.team]++;
             evaluator?.Evaluate();
         }
@@ -119,6 +120,7 @@ public class BaseBehaviour : MonoBehaviour
         DronBehaviour behaviour = other.GetComponent<DronBehaviour>();
         if (behaviour != null && behaviour.team < TeamManager.numTeams)
         {
+            behaviour.currentBase = null;
             agentsCount[behaviour.team]--;
             evaluator?.Evaluate();
         }

@@ -26,15 +26,20 @@ public class DronADCACBehaviour : DronBehaviour
 
     FSM_GoToWaitingPoint fsm_GoToWaitingPoint;
     FSM_Attack fsm_Attack;
+    FSM_ConquerOrDefend fsm_ConquerOrDefend;
     
     public DronBehaviour closestEnemy;
     BaseBehaviour targetBase;
     public Vector3 recruiterWaitingPoint;
+    BaseBehaviour closestAllyBase;
+    public BaseBehaviour baseToConquer;
+
 
     private void Start()
     {
         fsm_GoToWaitingPoint = GetComponentInChildren<FSM_GoToWaitingPoint>();
         fsm_Attack = GetComponentInChildren<FSM_Attack>();
+        fsm_ConquerOrDefend = GetComponentInChildren<FSM_ConquerOrDefend>();
 
         attackRangeTrigger = GetComponent<SphereCollider>();
         attackRangeTrigger.radius = enemyDetectionRange;
@@ -63,6 +68,7 @@ public class DronADCACBehaviour : DronBehaviour
 
     public void PushRecruiterIsConquering()
     {
+        baseToConquer = recruiter.closestBase;
         recruiterIsWaiting = false;
         recruiterIsConquering = true;
         evaluator.Evaluate();
@@ -155,7 +161,7 @@ public class DronADCACBehaviour : DronBehaviour
     {
         float minDist = protectionRange;
         float dist;
-        targetBase = null;
+        closestAllyBase = null;
 
         foreach(var b in BaseBehaviour.bases)
         {
@@ -166,7 +172,7 @@ public class DronADCACBehaviour : DronBehaviour
                     dist = (b.transform.position - transform.position).magnitude;
                     if(dist <= minDist)
                     {
-                        targetBase = b;
+                        closestAllyBase = b;
                         minDist = dist;
                     }
                 }
@@ -181,6 +187,7 @@ public class DronADCACBehaviour : DronBehaviour
         //FSM de ataque
         fsm_Attack.evaluator.paused = false;
         fsm_GoToWaitingPoint.evaluator.paused = true;
+        fsm_ConquerOrDefend.evaluator.paused = true;
 
         fsm_Attack.fsm.Restart();
     }
@@ -189,15 +196,28 @@ public class DronADCACBehaviour : DronBehaviour
         //FSM de ir al punto de espera del reclutador
         fsm_Attack.evaluator.paused = true;
         fsm_GoToWaitingPoint.evaluator.paused = false;
+        fsm_ConquerOrDefend.evaluator.paused = true;
 
         fsm_GoToWaitingPoint.fsm.Restart();
     }
     private void ConquerEnemyBase()
     {
+        targetBase = baseToConquer;
+        fsm_ConquerOrDefend.evaluator.paused = false;
+        fsm_Attack.evaluator.paused = true;
+        fsm_GoToWaitingPoint.evaluator.paused = true;
+
+        fsm_ConquerOrDefend.fsm.Restart();
         //FSM conquistar base
     }
     private void DefendAllyBase()
     {
+        targetBase = closestAllyBase;
+        fsm_ConquerOrDefend.evaluator.paused = false;
+        fsm_Attack.evaluator.paused = true;
+        fsm_GoToWaitingPoint.evaluator.paused = true;
+
+        fsm_ConquerOrDefend.fsm.Restart();
         //FSM defender base 
     }
 }
