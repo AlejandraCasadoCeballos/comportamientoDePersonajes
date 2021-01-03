@@ -51,6 +51,10 @@ public class RecruiterBehaviour : DronBehaviour
         var fsm = new FSM();
 
         var dieState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
+        dieState.SetOnBegin(() =>
+        {
+            TeamManager.AddDronToQueue(this);
+        });
 
         var approachToAllyState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         approachToAllyState.SetOnBegin(() =>
