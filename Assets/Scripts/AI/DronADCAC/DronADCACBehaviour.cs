@@ -9,7 +9,10 @@ public class DronADCACBehaviour : DronBehaviour
     [SerializeField] float enemyDetectionRange = 5f;
     [SerializeField] float protectionRange = 10f;
     [SerializeField] public float attackDamage = 3f;
-    
+    [SerializeField] private AudioClip dronDeath;
+
+    private AudioSource dronSound;
+
     [SerializeField] float recruiterInfluence = 0.5f;
 
     UtilitySystem utilitySystem;
@@ -46,6 +49,8 @@ public class DronADCACBehaviour : DronBehaviour
         fsm_GoToWaitingPoint = GetComponentInChildren<FSM_GoToWaitingPoint>();
         fsm_Attack = GetComponentInChildren<FSM_Attack>();
         fsm_ConquerOrDefend = GetComponentInChildren<FSM_ConquerOrDefend>();
+        dronSound = GetComponent<AudioSource>();
+        dronSound.clip = dronDeath;
 
         attackRangeTrigger = GetComponent<SphereCollider>();
         attackRangeTrigger.radius = enemyDetectionRange;
@@ -62,6 +67,12 @@ public class DronADCACBehaviour : DronBehaviour
     {
         recruiter?.recruits.Remove(this);
         dronADCACSet.Remove(this);
+        if (dronSound == null)
+        {
+            dronSound = GetComponent<AudioSource>();
+            dronSound.clip = dronDeath;
+        }
+        dronSound.Play();
     }
 
     public void PushRecruiterIsWaiting(Vector3 waitingPos)

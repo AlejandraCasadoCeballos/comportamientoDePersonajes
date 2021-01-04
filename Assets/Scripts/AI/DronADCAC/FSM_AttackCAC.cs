@@ -8,6 +8,10 @@ public class FSM_AttackCAC : FSM_Attack
     [SerializeField] float attackRange;
     DronADCACBehaviour dronBehaviour;
 
+    [SerializeField] private AudioClip dronAttack;
+
+    private AudioSource dronSoundCAC;
+
     [SerializeField] float attackSpeed = 1f;
     [SerializeField] float idleDisplacement = 3f;
     [SerializeField] float aimSpeed = 3f;
@@ -25,6 +29,9 @@ public class FSM_AttackCAC : FSM_Attack
         dronBehaviour = GetComponentInParent<DronADCACBehaviour>();
         CreateFSM();
         anim = GetComponentInParent<Animator>();
+
+        dronSoundCAC = GetComponent<AudioSource>();
+        dronSoundCAC.clip = dronAttack;
     }
 
     private void CreateFSM()
@@ -76,6 +83,12 @@ public class FSM_AttackCAC : FSM_Attack
             hasAttacked = false;
             timer = 0f;
             anim.Play("DronCACAttack");
+            if (dronSoundCAC == null)
+            {
+                dronSoundCAC = GetComponent<AudioSource>();
+                dronSoundCAC.clip = dronAttack;
+            }
+            dronSoundCAC.Play();
             dronBehaviour.closestEnemy?.ReceiveDamage(dronBehaviour.attackDamage);
         });
         attackState.SetOnUpdate(() =>

@@ -3,7 +3,9 @@ guid: 34bf5b36d95bb0f45b87104a1da4c206
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - evaluator: {instanceID: 0}
+  - dronAttack: {fileID: 8300000, guid: ce962953b1dcab548bb9192bb793d34b, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
