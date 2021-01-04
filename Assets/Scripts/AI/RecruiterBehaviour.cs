@@ -27,7 +27,8 @@ public class RecruiterBehaviour : DronBehaviour
     private float safeDistance = 4f;
 
     private float waitingTimer=0f;
-    
+
+    private float baseAttackDistance = TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic;
 
     [SerializeField] string state;
     FSM fsm;
@@ -59,6 +60,7 @@ public class RecruiterBehaviour : DronBehaviour
         var dieState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         dieState.SetOnBegin(() =>
         {
+            recruits.Clear();
             if(dronBehaviour.life <= 0)
                 TeamManager.AddDronToQueue(this);
         });
@@ -69,15 +71,8 @@ public class RecruiterBehaviour : DronBehaviour
             state = "approach ally";
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.hasRespawned = false;
-            /*float minDist = 999f;
             closestAlly = null;
-            foreach (var dron in DronADCACBehaviour.dronADCACSet)
-            {
-                if ((dron.transform.position - transform.position).magnitude < minDist && (dron.team == team) && !recruits.Contains(dron))
-                {
-                    closestAlly = dron;
-                }
-            }*/
+            
 
         });
         approachToAllyState.SetOnUpdate(() =>
@@ -92,10 +87,11 @@ public class RecruiterBehaviour : DronBehaviour
         goToEnemyBaseState.SetOnBegin(() =>
         {
             state = "goToEnemyBase";
-            waitingDistance = (closestBase.transform.position - transform.position).magnitude - (TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic);
+            waitingDistance = (closestBase.transform.position - transform.position).magnitude - baseAttackDistance;
             dronBehaviour.ai.isStopped = false;
+            dronBehaviour.ai.stoppingDistance = waitingDistance + safeDistance;
             dronBehaviour.ai.SetDestination(closestBase.transform.position);
-            dronBehaviour.ai.stoppingDistance = waitingDistance+safeDistance;
+            
         });
 
         var recruitAllyState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
@@ -128,6 +124,10 @@ public class RecruiterBehaviour : DronBehaviour
             dronBehaviour.ai.isStopped = false;
             foreach (var r in recruits) r.PushRecruiterIsConquering();
         });
+        attackEnemyBaseState.SetOnEnd(() =>
+        {
+            recruits.Clear();
+        });
 
         var dieToApproachToAllyEdge = new FSM_Edge(dieState, approachToAllyState, new List<Func<bool>>() { CheckHasRespawned});
         var approachToRecruitEdge = new FSM_Edge(approachToAllyState, recruitAllyState, new List<Func<bool>>() { CheckAllyInRecruitRange });
@@ -136,7 +136,7 @@ public class RecruiterBehaviour : DronBehaviour
         var goBaseToWaitAgentsEdge = new FSM_Edge(goToEnemyBaseState, waitRecruitAgentsState, new List<Func<bool>>() { CheckInWaitingPoint });
         var waitAgentsToApproachEdge = new FSM_Edge(waitRecruitAgentsState, approachToAllyState, new List<Func<bool>>() { ()=> waitingTimer > timeLimit });
         var waitAgentsToAttackEdge = new FSM_Edge(waitRecruitAgentsState, attackEnemyBaseState, new List<Func<bool>>() { CheckEnoughAlliesToConquer });
-        var attackToApproachEdge = new FSM_Edge(attackEnemyBaseState, approachToAllyState, new List<Func<bool>>() { CheckConqueredBase });
+        var attackToApproachEdge = new FSM_Edge(attackEnemyBaseState, approachToAllyState, new List<Func<bool>>() { CheckConqueredBase , () => recruits.Count==0});
         var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>() { CheckNoMoreLifes });
 
         dieState.AddEdge(dieToApproachToAllyEdge);
@@ -160,20 +160,20 @@ public class RecruiterBehaviour : DronBehaviour
     private bool CheckInWaitingPoint()
     {
         float magnitude = dronBehaviour.ai.remainingDistance;
-        //Vector3 dir = dronBehaviour.transform.position - dronBehaviour.ai.destination;
-        //float magnitude = dir.magnitude;
+        Debug.Log(dronBehaviour.ai.stoppingDistance);
         bool isStopped = magnitude < dronBehaviour.ai.stoppingDistance;
+        dronBehaviour.ai.isStopped = isStopped;
         return isStopped;
     }
 
     private bool CheckAllyInRecruitRange()
     {
         float minDist = 999f;
-        closestAlly = null;
         foreach (var dron in DronADCACBehaviour.dronADCACSet)
         {
             if ((dron.transform.position - transform.position).magnitude < minDist && (dron.team == team) && !recruits.Contains(dron))
             {
+                minDist = (dron.transform.position - transform.position).magnitude;
                 closestAlly = dron;
             }
         }
@@ -204,6 +204,7 @@ public class RecruiterBehaviour : DronBehaviour
         {
             if ((b.transform.position - transform.position).magnitude < minDist && (b.team != team))
             {
+                minDist = (b.transform.position - transform.position).magnitude;
                 closestBase = b;
             }
         }
