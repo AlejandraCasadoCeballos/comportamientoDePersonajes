@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Agent")
+        if(other.tag == "Agent" && !other.isTrigger)
         {
             DronBehaviour dronBehaviour = other.GetComponent<DronBehaviour>();
             if(dronBehaviour != null && dronBehaviour.team != team)

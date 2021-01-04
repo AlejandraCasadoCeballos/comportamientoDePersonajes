@@ -34,6 +34,12 @@ public class DronADCACBehaviour : DronBehaviour
     BaseBehaviour closestAllyBase;
     public BaseBehaviour baseToConquer;
 
+    [Header("UTILITY DISPLAY")]
+    [SerializeField] float attackUtility = 0f;
+    [SerializeField] float goToWaitingPointUtility = 0f;
+    [SerializeField] float conquerUtility = 0f;
+    [SerializeField] float defendUtility = 0f;
+
 
     private void Start()
     {
@@ -95,6 +101,11 @@ public class DronADCACBehaviour : DronBehaviour
         }
     }
 
+    private void Update()
+    {
+        enemiesInRange.RemoveWhere((a) => (!a.gameObject.activeSelf || a.life <= 0));
+    }
+
     private void CreateUtilitySystem()
     {
         PerceptionNode enemyDistance = new PerceptionNode(() => DistanceToClosestEnemy());
@@ -117,28 +128,28 @@ public class DronADCACBehaviour : DronBehaviour
         UtilityFunction attackEnemyUtility = new UtilityFunction(attackEnemy, enemyDistance).SetOnEvaluateUtility(
             (float per1) => {
                 float u = (1f - per1) * 0.9f + 0.1f;
-                Debug.Log("att u: " + u);
+                attackUtility = u;
                 return u;
                 });
 
         UtilityFunction goWaitingPointUtility = new UtilityFunction(goWaitingPoint, waitingRecruiter).SetOnEvaluateUtility(
             (float per2) => {
                 float u = per2;
-                Debug.Log("goWait u: " + u);
+                goToWaitingPointUtility = u;
                 return u;
                 });
 
         UtilityFunction conquerEnemyBaseUtility = new UtilityFunction(conquerEnemyBase, conquestSignal).SetOnEvaluateUtility(
             (float per3) => {
                 float u = per3;
-                Debug.Log("conq u: " + u);
+                conquerUtility = u;
                 return u;
                 });
 
         UtilityFunction defendAllyBaseUtility = new UtilityFunction(defendAllyBase, allyBaseIsBeingConquered).SetOnEvaluateUtility(
             (float per4) => {
                 float u = 1f - per4;
-                Debug.Log("def u: " + u);
+                defendUtility = u;
                 return u;
                 });
 
