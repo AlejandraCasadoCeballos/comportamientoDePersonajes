@@ -14,12 +14,12 @@ public class AudioManager : MonoBehaviour
     [HideInInspector]
     private BaseBehaviour baseComponent;
 
-    private int numBases;
+
     private void Start()
     {
-        numBases  = BaseBehaviour.bases.Count();
+        
         baseComponent = gameObject.GetComponentInParent<BaseBehaviour>();
-        baseComponent.captureEvent += baseCapturedEvent;
+        baseComponent.captureEvent += BaseCapturedEvent;
         baseSound = gameObject.GetComponent<AudioSource>();
     }
 
@@ -35,14 +35,14 @@ public class AudioManager : MonoBehaviour
         }
         else if (!baseComponent.isBeingConquered && baseSound.isPlaying)
         { //Aqui debería hacer que si paran de conquistar pues pare el sonido
-            if (baseSound.clip = baseBeingCaptured)
+            if (baseSound.clip == baseBeingCaptured)
             {
                 baseSound.Stop();
             }
         }
     }
 
-    private void baseCapturedEvent(string str)
+    private void BaseCapturedEvent()
     {
         baseSound.clip = baseCaptured;
         baseSound.Play();

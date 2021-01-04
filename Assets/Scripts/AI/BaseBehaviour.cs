@@ -9,7 +9,7 @@ public class BaseBehaviour : MonoBehaviour
     public static HashSet<BaseBehaviour> bases = new HashSet<BaseBehaviour>();
 
 
-    public event Action<string> captureEvent;
+    public event Action captureEvent;
 
     [SerializeField] float neutralizationTime = 3f;
     [SerializeField] float conquestTime = 3f;
@@ -207,6 +207,7 @@ public class BaseBehaviour : MonoBehaviour
                 {
                     timer = 0f;
                     team = majorityTeam;
+                    captureEvent?.Invoke();
                     a_continueConquest.End();
                 }
                 UpdateColor();
