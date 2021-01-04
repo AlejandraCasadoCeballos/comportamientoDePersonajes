@@ -49,6 +49,11 @@ public class TurretBehaviour : MonoBehaviour
         CreateFSM();
     }
 
+    private void Update()
+    {
+        allAgents.RemoveWhere((a) => (!a.gameObject.activeSelf || a.life <= 0));
+    }
+
     private void CreateFSM()
     {
         var fsm = new FSM();

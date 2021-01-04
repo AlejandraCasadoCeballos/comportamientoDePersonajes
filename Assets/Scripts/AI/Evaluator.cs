@@ -31,7 +31,8 @@ public class Evaluator : MonoBehaviour
             this.behaviour?.currentNode?.Begin();
             this.behaviour?.Evaluate();
         }
-        
+        if(!gameObject.activeSelf)
+            Debug.Log("inactive");
         StopAllCoroutines();
         StartCoroutine(EvaluateAtFixedRate());
     }

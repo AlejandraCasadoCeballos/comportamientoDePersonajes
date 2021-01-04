@@ -334,12 +334,12 @@ MonoBehaviour:
   team: 0
   movementSpeed: 3
   maxLife: 20
-  life: 999
+  life: 20
   hasRespawned: 0
   ai: {fileID: 0}
   currentBase: {fileID: 0}
-  enemyDetectionRange: 15
-  protectionRange: 10
+  enemyDetectionRange: 30
+  protectionRange: 5
   attackDamage: 3
   recruiterInfluence: 0.5
   recruiter: {fileID: 0}
@@ -349,6 +349,10 @@ MonoBehaviour:
   targetBase: {fileID: 0}
   recruiterWaitingPoint: {x: 0, y: 0, z: 0}
   baseToConquer: {fileID: 0}
+  attackUtility: 0
+  goToWaitingPointUtility: 0
+  conquerUtility: 0
+  defendUtility: 0
 --- !u!114 &8850695917221848296
 MonoBehaviour:
   m_ObjectHideFlags: 0

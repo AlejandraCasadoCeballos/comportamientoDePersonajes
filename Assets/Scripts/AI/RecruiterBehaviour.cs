@@ -30,6 +30,7 @@ public class RecruiterBehaviour : DronBehaviour
     
 
     [SerializeField] string state;
+    FSM fsm;
 
     private void Start()
     {
@@ -37,6 +38,11 @@ public class RecruiterBehaviour : DronBehaviour
         dronBehaviour = GetComponent<DronBehaviour>();
         CreateFSM();
 
+    }
+
+    private void OnEnable()
+    {
+        fsm?.Restart();
     }
 
 
@@ -48,12 +54,13 @@ public class RecruiterBehaviour : DronBehaviour
 
     private void CreateFSM()
     {
-        var fsm = new FSM();
+        fsm = new FSM();
 
         var dieState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         dieState.SetOnBegin(() =>
         {
-            TeamManager.AddDronToQueue(this);
+            if(dronBehaviour.life <= 0)
+                TeamManager.AddDronToQueue(this);
         });
 
         var approachToAllyState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
@@ -151,8 +158,9 @@ public class RecruiterBehaviour : DronBehaviour
 
     private bool CheckInWaitingPoint()
     {
-        Vector3 dir = dronBehaviour.transform.position - dronBehaviour.ai.destination;
-        float magnitude = dir.magnitude;
+        float magnitude = dronBehaviour.ai.remainingDistance;
+        //Vector3 dir = dronBehaviour.transform.position - dronBehaviour.ai.destination;
+        //float magnitude = dir.magnitude;
         bool isStopped = magnitude < dronBehaviour.ai.stoppingDistance;
         return isStopped;
     }
