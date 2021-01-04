@@ -62,7 +62,7 @@ public class RecruiterBehaviour : DronBehaviour
             state = "approach ally";
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.hasRespawned = false;
-            float minDist = 999f;
+            /*float minDist = 999f;
             closestAlly = null;
             foreach (var dron in DronADCACBehaviour.dronADCACSet)
             {
@@ -70,7 +70,7 @@ public class RecruiterBehaviour : DronBehaviour
                 {
                     closestAlly = dron;
                 }
-            }
+            }*/
 
         });
         approachToAllyState.SetOnUpdate(() =>
@@ -105,6 +105,7 @@ public class RecruiterBehaviour : DronBehaviour
             waitingTimer = 0f;
             state = "waiting";
             dronBehaviour.ai.isStopped = true;
+            dronBehaviour.ai.stoppingDistance = 0;
             foreach (var r in recruits) r.PushRecruiterIsWaiting(transform.position);
         });
         waitRecruitAgentsState.SetOnEnd(() =>
@@ -159,6 +160,15 @@ public class RecruiterBehaviour : DronBehaviour
 
     private bool CheckAllyInRecruitRange()
     {
+        float minDist = 999f;
+        closestAlly = null;
+        foreach (var dron in DronADCACBehaviour.dronADCACSet)
+        {
+            if ((dron.transform.position - transform.position).magnitude < minDist && (dron.team == team) && !recruits.Contains(dron))
+            {
+                closestAlly = dron;
+            }
+        }
         return closestAlly!=null && (closestAlly.transform.position-transform.position).magnitude<recruitRange;
     } 
     private bool CheckEnoughAllies()
