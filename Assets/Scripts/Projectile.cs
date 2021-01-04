@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
         transform.LookAt(destiny);
         //transform.rotation = origin.rotation;
         this.damage = damage;
-        direction = origin.forward.normalized;
+        direction = transform.forward;
         if(renderer == null) renderer = GetComponentInChildren<Renderer>();
         if (team < 0) renderer.sharedMaterial = neutralMat;
         else renderer.sharedMaterial = TeamManager.projectileMats[team];
@@ -39,14 +39,22 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Agent" && !other.isTrigger)
+        if (!other.isTrigger)
         {
-            DronBehaviour dronBehaviour = other.GetComponent<DronBehaviour>();
-            if(dronBehaviour != null && dronBehaviour.team != team)
+            if (other.tag == "Agent")
             {
-                dronBehaviour.ReceiveDamage(damage);
+                DronBehaviour dronBehaviour = other.GetComponent<DronBehaviour>();
+                if (dronBehaviour != null && dronBehaviour.team != team)
+                {
+                    dronBehaviour.ReceiveDamage(damage);
+                    pool.PushBackToPool();
+                }
+            } else if (other.gameObject.layer == (LayerMask.NameToLayer("Floor")))
+            {
                 pool.PushBackToPool();
             }
+            
         }
+        
     }
 }
