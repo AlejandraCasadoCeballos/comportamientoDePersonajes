@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System;
 
 public class BaseBehaviour : MonoBehaviour
 {
     public static HashSet<BaseBehaviour> bases = new HashSet<BaseBehaviour>();
+
+
+    public event Action<string> captureEvent;
 
     [SerializeField] float neutralizationTime = 3f;
     [SerializeField] float conquestTime = 3f;
@@ -55,6 +59,7 @@ public class BaseBehaviour : MonoBehaviour
         //Create behaviour
         CreateDecisionTree();
         bases.Add(this);
+
     }
 
     private void Update()

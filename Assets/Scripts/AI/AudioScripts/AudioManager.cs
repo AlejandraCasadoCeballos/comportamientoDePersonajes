@@ -6,41 +6,45 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource baseCapturandose;
-
+    private AudioClip baseBeingCaptured;
     [SerializeField]
-    private AudioSource baseCapturada;
+    private AudioClip baseCaptured;
 
-    public BaseBehaviour baseComponent;
+    private AudioSource baseSound;
+    [HideInInspector]
+    private BaseBehaviour baseComponent;
 
     private int numBases;
     private void Start()
     {
         numBases  = BaseBehaviour.bases.Count();
-
-
+        baseComponent = gameObject.GetComponentInParent<BaseBehaviour>();
+        baseComponent.captureEvent += baseCapturedEvent;
+        baseSound = gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        if (baseComponent.isBeingConquered)
+        if (baseComponent.isBeingConquered && !baseSound.isPlaying)
         {
-            baseCapturandose.Play();
-        }
-        else
-        {
-            if (baseCapturandose.isPlaying)
+            if (baseSound.clip != baseBeingCaptured)
             {
-                baseCapturandose.Stop();
+                baseSound.clip = baseBeingCaptured;
+            }
+            baseSound.Play();
+        }
+        else if (!baseComponent.isBeingConquered && baseSound.isPlaying)
+        { //Aqui debería hacer que si paran de conquistar pues pare el sonido
+            if (baseSound.clip = baseBeingCaptured)
+            {
+                baseSound.Stop();
             }
         }
+    }
 
-        foreach (var equipo in BaseBehaviour.bases)
-        {
-            if(equipo.team > 0)
-            {
-
-            }
-        }
+    private void baseCapturedEvent(string str)
+    {
+        baseSound.clip = baseCaptured;
+        baseSound.Play();
     }
 }
