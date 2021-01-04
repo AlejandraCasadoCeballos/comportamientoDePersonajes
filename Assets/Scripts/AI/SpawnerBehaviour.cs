@@ -88,9 +88,9 @@ public class SpawnerBehaviour : MonoBehaviour
             DronBehaviour dron = queue.Dequeue();
             dron.transform.position = spawnPoint.position;
             dron.transform.rotation = spawnPoint.rotation;
+            dron.life = dron.maxLife;
             dron.gameObject.SetActive(true);
             dron.hasRespawned = true;
-            dron.life = dron.maxLife;
         }
         spawned = true;
     }

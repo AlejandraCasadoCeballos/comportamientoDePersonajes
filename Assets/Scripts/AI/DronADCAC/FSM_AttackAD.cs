@@ -5,7 +5,8 @@ using System;
 
 public class FSM_AttackAD : FSM_Attack
 {
-    [SerializeField] float attackRange;
+    [SerializeField] Transform projectileSpawnPoint;
+    //[SerializeField] float attackRange;
     DronADCACBehaviour dronBehaviour;
 
     [SerializeField] float rateOfFire = 1f;
@@ -52,7 +53,7 @@ public class FSM_AttackAD : FSM_Attack
             Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement*0.5f;
             
             //dronBehaviour.ai.destination = dronBehaviour.transform.position + dronBehaviour.transform.forward * 5f;
-            Debug.Log("Calculate path: " + dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst));
+            dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
         });
 
         idleState.SetOnUpdate(() =>
@@ -74,6 +75,11 @@ public class FSM_AttackAD : FSM_Attack
             state = "shoot";
             dronBehaviour.ai.isStopped = true;
             //TODO: SHOOT PROJECTILE
+            if(dronBehaviour.closestEnemy != null)
+            {
+                var projectile = TeamManager.projectilePool.GetInstance();
+                projectile.GetComponent<Projectile>().Init(projectileSpawnPoint, dronBehaviour.closestEnemy.transform, dronBehaviour.team, dronBehaviour.attackDamage);
+            }
         });
         shootState.SetOnUpdate(() =>
         {
@@ -85,7 +91,7 @@ public class FSM_AttackAD : FSM_Attack
         });
         var shootToAim = new FSM_Edge(shootState, aimState, new List<Func<bool>>()
         {
-            ()=>dronBehaviour.closestEnemy != null
+            ()=>dronBehaviour.closestEnemy != null && hasShot
         });
         shootState.AddEdge(shootToAim);
         var shootToIdle = new FSM_Edge(shootState, idleState, new List<Func<bool>>()
@@ -113,6 +119,7 @@ public class FSM_AttackAD : FSM_Attack
         var aimToShoot = new FSM_Edge(aimState, shootState, new List<Func<bool>>()
         {
             () => {
+                if(dronBehaviour.closestEnemy == null) return false;
                 Vector3 target = dronBehaviour.closestEnemy.transform.position;
                 return Vector3.Angle(transform.forward, Vector3.ProjectOnPlane((target-transform.position), Vector3.up)) < shootAngle*0.5f;
                 }

@@ -21,14 +21,23 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
     private void CreateFSM()
     {
         fsm = new FSM(0.5f);
-
+        
+        //STATES
         var dieState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
+        dieState.SetOnBegin(() =>
+        {
+            TeamManager.AddDronToQueue(dronBehaviour);
+        });
         var goToWaitingPointState = new FSM_Node();
         goToWaitingPointState.SetOnBegin(() =>
         {
+            dronBehaviour.ai.isStopped = false;
             dronBehaviour.hasRespawned = false;
+            dronBehaviour.ai.SetDestination(dronBehaviour.recruiterWaitingPoint);
         });
         var waitOrdersState = new FSM_Node();
+
+        //EDGES
 
         var dieToGoToWaitingPoint = new FSM_Edge(dieState, goToWaitingPointState, new List<Func<bool>>()
         {
@@ -37,11 +46,12 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
 
         var goToWaitingPointToWaitOrders = new FSM_Edge(goToWaitingPointState, waitOrdersState, new List<Func<bool>>()
         {
-
+            ()=>transform.position==dronBehaviour.recruiterWaitingPoint
         });
        
 
         var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>(){ () => dronBehaviour.life <= 0f });
+        
         fsm.anyState.AddEdge(anyToDie);
 
         dieState.AddEdge(dieToGoToWaitingPoint);

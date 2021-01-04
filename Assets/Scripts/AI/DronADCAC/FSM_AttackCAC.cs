@@ -76,6 +76,7 @@ public class FSM_AttackCAC : FSM_Attack
             hasAttacked = false;
             timer = 0f;
             anim.Play("DronCACAttack");
+            dronBehaviour.closestEnemy?.ReceiveDamage(dronBehaviour.attackDamage);
         });
         attackState.SetOnUpdate(() =>
         {
@@ -84,21 +85,23 @@ public class FSM_AttackCAC : FSM_Attack
             {
                 hasAttacked = true;
             }
-
-            Vector3 target = dronBehaviour.closestEnemy.transform.position;
-            Debug.DrawLine(dronBehaviour.transform.position, target);
-            float angleY = Vector3.SignedAngle(dronBehaviour.transform.forward, Vector3.ProjectOnPlane(target - dronBehaviour.transform.position, Vector3.up), Vector3.up);
-            float rotationY = angleY * aimSpeed * Time.deltaTime;
-            if (Mathf.Abs(rotationY) > Mathf.Abs(angleY)) rotationY = angleY;
-            dronBehaviour.transform.RotateAround(transform.position, Vector3.up, rotationY);
+            if(dronBehaviour.closestEnemy != null)
+            {
+                Vector3 target = dronBehaviour.closestEnemy.transform.position;
+                Debug.DrawLine(dronBehaviour.transform.position, target);
+                float angleY = Vector3.SignedAngle(dronBehaviour.transform.forward, Vector3.ProjectOnPlane(target - dronBehaviour.transform.position, Vector3.up), Vector3.up);
+                float rotationY = angleY * aimSpeed * Time.deltaTime;
+                if (Mathf.Abs(rotationY) > Mathf.Abs(angleY)) rotationY = angleY;
+                dronBehaviour.transform.RotateAround(transform.position, Vector3.up, rotationY);
+            }
         });
 
         var approachToAttack = new FSM_Edge(approachEnemyState, attackState, new List<Func<bool>>()
         {
             ()=>{
-                Debug.Log("checking");
+                //Debug.Log("checking");
                 if(dronBehaviour.closestEnemy ==  null) return false;
-                Debug.Log("checking: " + ((dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude <= attackRange));
+                //Debug.Log("checking: " + ((dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude <= attackRange));
                 return (dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude <= attackRange;
                 }
         });
@@ -108,7 +111,10 @@ public class FSM_AttackCAC : FSM_Attack
         });
         var attackToApproach2 = new FSM_Edge(attackState, approachEnemyState, new List<Func<bool>>()
         {
-            ()=>(dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude > attackRange
+            ()=>{
+                if(dronBehaviour.closestEnemy == null) return true;
+                return (dronBehaviour.transform.position-dronBehaviour.closestEnemy.transform.position).magnitude > attackRange;
+            }
         });
 
         dieState.AddEdge(dieToApproachEnemy);

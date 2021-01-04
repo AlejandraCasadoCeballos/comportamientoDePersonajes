@@ -19,7 +19,7 @@ public class BaseBehaviour : MonoBehaviour
     private Evaluator evaluator;
     private DecisionTree tree;
 
-    private int[] agentsCount;
+    [SerializeField] private int[] agentsCount;
     private float timer = 0f;
 
     private Material mat;
@@ -29,6 +29,8 @@ public class BaseBehaviour : MonoBehaviour
 
     public bool isBeingConquered { get => team == -1 && timer > 0f; }
     public bool isBeingNeutralized { get => team >= 0 && timer > 0f; }
+
+    HashSet<DronBehaviour> agentsInside = new HashSet<DronBehaviour>();
 
     private void Start()
     {
@@ -53,6 +55,27 @@ public class BaseBehaviour : MonoBehaviour
         //Create behaviour
         CreateDecisionTree();
         bases.Add(this);
+    }
+
+    private void Update()
+    {
+        agentsInside.RemoveWhere((a) =>
+        {
+            if (!a.gameObject.activeSelf || a.life <= 0)
+            {
+                OnExitBase(a);
+                return true;
+            }
+            else return false;
+        });
+    }
+
+    public void OnExitBase(DronBehaviour agent)
+    {
+        agent.currentBase = null;
+        agentsCount[agent.team]--;
+        evaluator?.Evaluate();
+        
     }
 
     private void UpdateColor()
@@ -106,24 +129,30 @@ public class BaseBehaviour : MonoBehaviour
     {
         
         if (other.tag != "Agent") return;
+        if (other.isTrigger) return;
         DronBehaviour behaviour = other.GetComponent<DronBehaviour>();
         if(behaviour != null && behaviour.team < TeamManager.numTeams)
         {
+            behaviour.currentBase = this;
             agentsCount[behaviour.team]++;
             evaluator?.Evaluate();
+            agentsInside.Add(behaviour);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag != "Agent") return;
+        if (other.isTrigger) return;
         DronBehaviour behaviour = other.GetComponent<DronBehaviour>();
         if (behaviour != null && behaviour.team < TeamManager.numTeams)
         {
-            agentsCount[behaviour.team]--;
-            evaluator?.Evaluate();
+            OnExitBase(behaviour);
+            agentsInside.Remove(behaviour);
         }
     }
+
+    
 
     #region DECISION TREE
 

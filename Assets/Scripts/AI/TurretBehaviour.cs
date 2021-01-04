@@ -7,6 +7,7 @@ public class TurretBehaviour : MonoBehaviour
 {
     [Header("Object references")]
     [SerializeField] Transform turretHead;
+    [SerializeField] Transform projectileSpawnPoint;
 
     [Header("Parameters")]
     [SerializeField] float aimSpeed = 1;
@@ -48,6 +49,11 @@ public class TurretBehaviour : MonoBehaviour
         CreateFSM();
     }
 
+    private void Update()
+    {
+        allAgents.RemoveWhere((a) => (!a.gameObject.activeSelf || a.life <= 0));
+    }
+
     private void CreateFSM()
     {
         var fsm = new FSM();
@@ -66,9 +72,10 @@ public class TurretBehaviour : MonoBehaviour
         var shootState = new FSM_Node(0.5f, ActionNode.Reevaluation.onlyOnEnd);
         shootState.SetOnBegin(() =>
         {
-            Debug.Log("SHOOT");
             timer = 0f;
             hasShot = false;
+            var projectile = TeamManager.projectilePool.GetInstance();
+            projectile.GetComponent<Projectile>().Init(projectileSpawnPoint, closestEnemy.transform, baseBehaviour.team, fireDamage);
         });
         shootState.SetOnUpdate(() =>
         {

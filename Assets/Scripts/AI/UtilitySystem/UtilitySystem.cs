@@ -18,13 +18,14 @@ public class UtilitySystem : Behaviour
     {
         float max=-1.0f;
         ActionNode newNode=currentNode;
+        float utility;
         foreach (var utilityFunction in utilityFunctions)
         {
-            if (max < utilityFunction.perception.Evaluate())
+            utility = utilityFunction.EvaluateUtility();
+            if(utility > max)
             {
-                max = utilityFunction.EvaluateUtility();
+                max = utility;
                 newNode = utilityFunction.node;
-                
             }
         }
         
