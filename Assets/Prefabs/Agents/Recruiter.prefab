@@ -159,20 +159,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a26ac15aeed4b4ba1edbc12a10a22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 0
   movementSpeed: 5
-  maxLife: 10
-  life: 10
+  maxLife: 20
+  team: 0
   hasRespawned: 0
   ai: {fileID: 0}
   currentBase: {fileID: 0}
+  life: 10
   maxAllies: 5
   waitPointRange: 3
   recruitRange: 1.6
   minPercentageOfAllies: 50
   timeLimit: 25
-  closestBase: {fileID: 0}
   safeDistance: 8
+  closestBase: {fileID: 0}
   state: 
 --- !u!114 &5596313166753231610
 MonoBehaviour:

@@ -2072,7 +2072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c3b6d6aea9cc04d810089c34383bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTime: 7.5
+  respawnTime: 5
   dronADCountPerTeam: 10
   dronADPrefab: {fileID: 6054508242896364611, guid: 0f143bd294b0a714aabd1c7288bbed8c,
     type: 3}
