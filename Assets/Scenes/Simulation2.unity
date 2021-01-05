@@ -3761,38 +3761,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1858992041}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1885293173 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6992668075203254942, guid: f4c4adc1fc645a94aac45a1dfa5f8518,
-    type: 3}
-  m_PrefabInstance: {fileID: 5906709}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1885293174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885293173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 436275a13d4459746955fc6db5953473, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _active: 1
-  _enableRotation: 1
-  _mouseSense: 1.8
-  _enableTranslation: 1
-  _translationSpeed: 55
-  _enableMovement: 1
-  _movementSpeed: 10
-  _boostedSpeed: 30
-  _boostSpeed: 304
-  _moveUp: 101
-  _moveDown: 113
-  _enableSpeedAcceleration: 1
-  _speedAccelerationFactor: 1
-  _initPositonButton: 114
 --- !u!1001 &2014284030
 PrefabInstance:
   m_ObjectHideFlags: 0

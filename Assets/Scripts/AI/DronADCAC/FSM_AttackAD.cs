@@ -45,15 +45,18 @@ public class FSM_AttackAD : FSM_Attack
         {
             state = "idle";
             dronBehaviour.hasRespawned = false;
+            if (dronBehaviour.gameObject.activeSelf)
+            {
+                dronBehaviour.ai.isStopped = false;
+                hasShot = false;
+                //dronBehaviour.ai.Warp(new Vector3(8.96f, 1.3f, -20.86f));
+                Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
+                Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement * 0.5f;
 
-            dronBehaviour.ai.isStopped = false;
-            hasShot = false;
-            //dronBehaviour.ai.Warp(new Vector3(8.96f, 1.3f, -20.86f));
-            Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
-            Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement*0.5f;
+                //dronBehaviour.ai.destination = dronBehaviour.transform.position + dronBehaviour.transform.forward * 5f;
+                dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
+            }
             
-            //dronBehaviour.ai.destination = dronBehaviour.transform.position + dronBehaviour.transform.forward * 5f;
-            dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
         });
 
         idleState.SetOnUpdate(() =>

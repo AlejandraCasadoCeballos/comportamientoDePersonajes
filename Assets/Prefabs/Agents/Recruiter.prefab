@@ -171,7 +171,9 @@ MonoBehaviour:
   recruitRange: 2
   minPercentageOfAllies: 50
   timeLimit: 25
-  safeDistance: 10
+  safeDistance: 8
+  pathComplete: 0
+  remainingDistance: 0
   closestAlly: {fileID: 0}
   closestBase: {fileID: 0}
   state: 
