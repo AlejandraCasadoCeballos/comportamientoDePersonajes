@@ -168,10 +168,11 @@ MonoBehaviour:
   life: 10
   maxAllies: 5
   waitPointRange: 3
-  recruitRange: 1.6
+  recruitRange: 2
   minPercentageOfAllies: 50
   timeLimit: 25
-  safeDistance: 8
+  safeDistance: 10
+  closestAlly: {fileID: 0}
   closestBase: {fileID: 0}
   state: 
 --- !u!114 &5596313166753231610

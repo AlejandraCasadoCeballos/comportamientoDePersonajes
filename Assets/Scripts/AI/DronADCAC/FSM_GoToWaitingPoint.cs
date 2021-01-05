@@ -36,7 +36,8 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.hasRespawned = false;
             dronBehaviour.ai.stoppingDistance = 0f;
-            dronBehaviour.ai.SetDestination(dronBehaviour.recruiterWaitingPoint);
+            if(gameObject.activeSelf)
+                dronBehaviour.ai.SetDestination(dronBehaviour.recruiterWaitingPoint);
         });
         goToWaitingPointState.SetOnUpdate(() =>
         {

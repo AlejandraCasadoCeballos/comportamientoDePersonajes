@@ -106,6 +106,7 @@ public class BaseBehaviour : MonoBehaviour
 
     private int CheckMajority()
     {
+        int lastMajorityTeam = majorityTeam;
         majorityTeam = team;
         int currentTeamCount = 0;
         if (belongsToATeam) currentTeamCount = agentsCount[team];
@@ -118,6 +119,7 @@ public class BaseBehaviour : MonoBehaviour
                 
             }
         }
+        if (lastMajorityTeam != majorityTeam) timer = 0f;
         return majorityTeam;
     }
 
