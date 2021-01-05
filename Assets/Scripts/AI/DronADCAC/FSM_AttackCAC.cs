@@ -47,11 +47,14 @@ public class FSM_AttackCAC : FSM_Attack
         {
             state = "approach";
             dronBehaviour.hasRespawned = false;
-            dronBehaviour.ai.isStopped = false;
+            if (dronBehaviour.gameObject.activeSelf)
+            {
+                dronBehaviour.ai.isStopped = false;
 
-            Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
-            Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement * 0.5f;
-            dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
+                Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
+                Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement * 0.5f;
+                dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
+            }
         });
         approachEnemyState.SetOnUpdate(() =>
         {

@@ -35,12 +35,16 @@ public class FSM_ConquerOrDefend : FSM_Attack
         {
             state = "approachBase";
             dronBehaviour.hasRespawned = false;
-            dronBehaviour.ai.isStopped = false;
-            dronBehaviour.ai.stoppingDistance = 1f;
-            if(dronBehaviour.targetBase != null)
+            if (dronBehaviour.gameObject.activeSelf)
             {
-                dronBehaviour.ai.SetDestination(dronBehaviour.targetBase.transform.position);
+                dronBehaviour.ai.isStopped = false;
+                dronBehaviour.ai.stoppingDistance = 1f;
+                if (dronBehaviour.targetBase != null)
+                {
+                    dronBehaviour.ai.SetDestination(dronBehaviour.targetBase.transform.position);
+                }
             }
+            
         });
         approachBaseState.SetOnUpdate(() =>
         {

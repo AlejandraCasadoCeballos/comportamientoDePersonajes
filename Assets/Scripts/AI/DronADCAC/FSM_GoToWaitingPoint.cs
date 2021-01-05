@@ -33,10 +33,10 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
         goToWaitingPointState.SetOnBegin(() =>
         {
             state = "going to waiting point";
-            if (gameObject.activeSelf)
+            dronBehaviour.hasRespawned = false;
+            if (dronBehaviour.gameObject.activeSelf)
             {
                 dronBehaviour.ai.isStopped = false;
-                dronBehaviour.hasRespawned = false;
                 dronBehaviour.ai.stoppingDistance = 0f;
                 dronBehaviour.ai.SetDestination(dronBehaviour.recruiterWaitingPoint);
             }
