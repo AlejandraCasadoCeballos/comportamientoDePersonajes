@@ -44,7 +44,10 @@ public class FSM_ConquerOrDefend : FSM_Attack
         });
         approachBaseState.SetOnUpdate(() =>
         {
-            if(dronBehaviour.targetBase != null)
+            dronBehaviour.hasRespawned = false;
+            dronBehaviour.ai.isStopped = false;
+            dronBehaviour.ai.stoppingDistance = 1f;
+            if (dronBehaviour.targetBase != null)
             {
                 Debug.DrawLine(dronBehaviour.transform.position, dronBehaviour.targetBase.transform.position, Color.blue);
                 if(dronBehaviour.currentBase == dronBehaviour.targetBase)
@@ -60,10 +63,9 @@ public class FSM_ConquerOrDefend : FSM_Attack
             ()=>dronBehaviour.hasRespawned,
         });
         dieState.AddEdge(dieToApproachEnemy);
-
         
         fsm.SetNodes(new FSM_Node[] { dieState, approachBaseState });
         fsm.SetRoot(approachBaseState);
-        evaluator.SetBehaviour(fsm);
+        evaluator.SetBehaviour(fsm, false);
     }
 }

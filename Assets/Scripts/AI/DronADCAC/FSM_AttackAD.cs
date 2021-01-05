@@ -133,6 +133,6 @@ public class FSM_AttackAD : FSM_Attack
 
         fsm.SetNodes(new FSM_Node[] { dieState, idleState, shootState, aimState });
         fsm.SetRoot(idleState);
-        evaluator.SetBehaviour(fsm);
+        evaluator.SetBehaviour(fsm, false);
     }
 }

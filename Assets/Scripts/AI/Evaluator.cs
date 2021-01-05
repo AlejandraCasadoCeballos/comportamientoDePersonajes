@@ -8,12 +8,12 @@ public class Evaluator : MonoBehaviour
     [SerializeField] private float standByReevaluationRate = 1f;
     public bool paused = false;
 
-    public void SetBehaviour(Behaviour behaviour)
+    public void SetBehaviour(Behaviour behaviour, bool begin = true)
     {
         this.behaviour = behaviour;
         StopAllCoroutines();
         StartCoroutine(EvaluateAtFixedRate());
-        this.behaviour.currentNode?.Begin();
+        if(begin) this.behaviour.currentNode?.Begin();
         this.behaviour.Evaluate();
     }
 
@@ -28,7 +28,7 @@ public class Evaluator : MonoBehaviour
     {
         if (!paused)
         {
-            this.behaviour?.currentNode?.Begin();
+            //this.behaviour?.currentNode?.Begin();
             this.behaviour?.Evaluate();
         }
         if(!gameObject.activeSelf)

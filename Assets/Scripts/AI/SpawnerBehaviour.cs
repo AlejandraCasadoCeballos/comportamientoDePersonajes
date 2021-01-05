@@ -12,7 +12,8 @@ public class SpawnerBehaviour : MonoBehaviour
     FSM baseSpawner;
     FSM_Node waitingState, generateState;
     FSM_Edge generate_Wait_Edge, wait_Generate_Edge;
-    [SerializeField] float respawnTime = 5.0f;
+    public static float respawnTime;
+    
     float time;
     bool spawned;
 
@@ -83,9 +84,17 @@ public class SpawnerBehaviour : MonoBehaviour
         int i = index < 0 ? UnityEngine.Random.Range(0, spawnPointsCount) : index;
         Transform spawnPoint = spawnPoints[i];
         Queue<DronBehaviour> queue = TeamManager.dronSpawnQueues[team];
-        if(queue.Count > 0)
+        Queue<DronBehaviour> recruiterQueue = TeamManager.recruiterSpawnQueues[team];
+        DronBehaviour dron = null;
+        if(recruiterQueue.Count > 0)
         {
-            DronBehaviour dron = queue.Dequeue();
+            dron = recruiterQueue.Dequeue();
+        } else if (queue.Count > 0)
+        {
+            dron = queue.Dequeue();
+        }
+        if(dron != null)
+        {
             dron.transform.position = spawnPoint.position;
             dron.transform.rotation = spawnPoint.rotation;
             dron.life = dron.maxLife;

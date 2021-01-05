@@ -65,7 +65,6 @@ public class Projectile : MonoBehaviour
             {
                 pool.PushBackToPool();
             }
-            
         }
         
     }

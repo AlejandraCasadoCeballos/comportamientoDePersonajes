@@ -13,11 +13,13 @@ public class BaseBehaviour : MonoBehaviour
 
     [SerializeField] float neutralizationTime = 3f;
     [SerializeField] float conquestTime = 3f;
+    public int team = -1;
+
+    [Header("Display")]
     [SerializeField] Color neutralColor;
     [SerializeField] new MeshRenderer renderer;
     
     private int majorityTeam = -1;
-    public int team = -1;
     public bool belongsToATeam { get => team >= 0;  }
     
     private Evaluator evaluator;

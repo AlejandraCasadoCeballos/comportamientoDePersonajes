@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeamManager : MonoBehaviour
 {
-
+    [SerializeField] float respawnTime = 5.0f;
     [SerializeField] int dronADCountPerTeam = 10;
     [SerializeField] GameObject dronADPrefab;
     [SerializeField] int dronCACCountPerTeam = 10;
@@ -18,6 +18,7 @@ public class TeamManager : MonoBehaviour
     public static int numTeams { get => teamColors.Length; }
 
     public static Queue<DronBehaviour>[] dronSpawnQueues;
+    public static Queue<DronBehaviour>[] recruiterSpawnQueues;
 
     [SerializeField] ObjectPool _projectilePool;
     public static ObjectPool projectilePool;
@@ -26,9 +27,11 @@ public class TeamManager : MonoBehaviour
 
     private void Awake()
     {
+        SpawnerBehaviour.respawnTime = respawnTime;
         projectilePool = _projectilePool;
         teamColors = _teams;
         dronSpawnQueues = new Queue<DronBehaviour>[numTeams];
+        recruiterSpawnQueues = new Queue<DronBehaviour>[numTeams];
         DronBehaviour dronBehaviour;
         GameObject obj;
         Material dronADMat;
@@ -47,6 +50,7 @@ public class TeamManager : MonoBehaviour
             projectileMats[i].SetColor("AlbedoTint", teamColors[i]);
 
             dronSpawnQueues[i] = new Queue<DronBehaviour>();
+            recruiterSpawnQueues[i] = new Queue<DronBehaviour>();
 
             renderer = dronADPrefab.GetComponentInChildren<MeshRenderer>();
             dronADMat = Instantiate(renderer.sharedMaterial);
@@ -66,7 +70,7 @@ public class TeamManager : MonoBehaviour
                 obj.SetActive(false);
                 dronBehaviour = obj.GetComponent<DronBehaviour>();
                 dronBehaviour.team = i;
-                dronSpawnQueues[i].Enqueue(dronBehaviour);
+                recruiterSpawnQueues[i].Enqueue(dronBehaviour);
                 agentRenderers = UsefulFuncs.GetComponentsInChildrenDepthOne<MeshRenderer>(obj.transform);
                 foreach (var r in agentRenderers) if (r != null) r.sharedMaterial = recruiterMat;
             }
@@ -120,5 +124,11 @@ public class TeamManager : MonoBehaviour
     {
         dron.gameObject.SetActive(false);
         dronSpawnQueues[dron.team].Enqueue(dron);
+    }
+
+    public static void AddRecruiterToQueue(DronBehaviour dron)
+    {
+        dron.gameObject.SetActive(false);
+        recruiterSpawnQueues[dron.team].Enqueue(dron);
     }
 }
