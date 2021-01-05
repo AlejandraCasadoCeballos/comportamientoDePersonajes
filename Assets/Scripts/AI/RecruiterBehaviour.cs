@@ -16,20 +16,18 @@ public class RecruiterBehaviour : DronBehaviour
     [SerializeField] float waitPointRange;
     [SerializeField] float recruitRange;
     [SerializeField] int minPercentageOfAllies;
-    [SerializeField] float minDistToWaitingPoint = 0.5f;
     [SerializeField] private float timeLimit;
 
     private float waitingDistance;
     private DronBehaviour dronBehaviour;
-    public BaseBehaviour closestBase;
     private Evaluator evaluator;
     private DronADCACBehaviour closestAlly;
-    private float safeDistance = 4f;
+    [SerializeField] private float safeDistance = 4f;
 
     private float waitingTimer=0f;
 
-    private float baseAttackDistance = TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic;
-
+    [Header("Display")]
+    public BaseBehaviour closestBase;
     [SerializeField] string state;
     FSM fsm;
 
@@ -55,14 +53,14 @@ public class RecruiterBehaviour : DronBehaviour
 
     private void CreateFSM()
     {
-        fsm = new FSM();
+        fsm = new FSM(0.1f);
 
         var dieState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
         dieState.SetOnBegin(() =>
         {
             recruits.Clear();
             if(dronBehaviour.life <= 0)
-                TeamManager.AddDronToQueue(this);
+                TeamManager.AddRecruiterToQueue(this);
         });
 
         var approachToAllyState = new FSM_Node(0.1f, ActionNode.Reevaluation.atFixedRate);
@@ -79,7 +77,9 @@ public class RecruiterBehaviour : DronBehaviour
         {
             if (closestAlly != null)
             {
+                dronBehaviour.ai.isStopped = false;
                 dronBehaviour.ai.SetDestination(closestAlly.transform.position);
+                Debug.DrawLine(transform.position, closestAlly.transform.position, Color.blue);
             }
         });
 
@@ -87,14 +87,19 @@ public class RecruiterBehaviour : DronBehaviour
         goToEnemyBaseState.SetOnBegin(() =>
         {
             state = "goToEnemyBase";
-            waitingDistance = (closestBase.transform.position - transform.position).magnitude - baseAttackDistance;
+            waitingDistance = TurretBehaviour.distToBase + TurretBehaviour.attackRangeStatic;
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.ai.stoppingDistance = waitingDistance + safeDistance;
             dronBehaviour.ai.SetDestination(closestBase.transform.position);
-            
         });
 
-        var recruitAllyState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
+        goToEnemyBaseState.SetOnUpdate(() =>
+        {
+            dronBehaviour.ai.isStopped = false;
+            dronBehaviour.ai.stoppingDistance = waitingDistance + safeDistance;
+        });
+
+        var recruitAllyState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
         recruitAllyState.SetOnBegin(() =>
         {
             state = "recruiting";
@@ -102,14 +107,21 @@ public class RecruiterBehaviour : DronBehaviour
             RecruitAlly(closestAlly);
         });
         
-        var waitRecruitAgentsState = new FSM_Node(1f, ActionNode.Reevaluation.atFixedRate);
+        var waitRecruitAgentsState = new FSM_Node(0.3f, ActionNode.Reevaluation.atFixedRate);
         waitRecruitAgentsState.SetOnBegin(() =>
         {
             waitingTimer = 0f;
             state = "waiting";
             dronBehaviour.ai.isStopped = true;
             dronBehaviour.ai.stoppingDistance = 0;
-            foreach (var r in recruits) r.PushRecruiterIsWaiting(transform.position);
+            try
+            {
+                foreach (var r in recruits) r.PushRecruiterIsWaiting(transform.position);
+            } catch(System.Exception e)
+            {
+
+            }
+            
         });
         waitRecruitAgentsState.SetOnEnd(() =>
         {
@@ -160,7 +172,6 @@ public class RecruiterBehaviour : DronBehaviour
     private bool CheckInWaitingPoint()
     {
         float magnitude = dronBehaviour.ai.remainingDistance;
-        Debug.Log(dronBehaviour.ai.stoppingDistance);
         bool isStopped = magnitude < dronBehaviour.ai.stoppingDistance;
         dronBehaviour.ai.isStopped = isStopped;
         return isStopped;

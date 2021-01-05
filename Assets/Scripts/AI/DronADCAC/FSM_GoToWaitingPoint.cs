@@ -9,6 +9,7 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
     DronADCACBehaviour dronBehaviour;
 
     [HideInInspector] public FSM fsm;
+    [SerializeField] string state;
 
     private void Awake()
     {
@@ -31,11 +32,28 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
         var goToWaitingPointState = new FSM_Node();
         goToWaitingPointState.SetOnBegin(() =>
         {
+            state = "going to waiting point";
             dronBehaviour.ai.isStopped = false;
             dronBehaviour.hasRespawned = false;
+            dronBehaviour.ai.stoppingDistance = 0f;
             dronBehaviour.ai.SetDestination(dronBehaviour.recruiterWaitingPoint);
         });
+        goToWaitingPointState.SetOnUpdate(() =>
+        {
+            dronBehaviour.ai.isStopped = false;
+            dronBehaviour.hasRespawned = false;
+            dronBehaviour.ai.stoppingDistance = 0f;
+            if(dronBehaviour.ai.destination != dronBehaviour.recruiterWaitingPoint)
+            {
+                dronBehaviour.ai.SetDestination(dronBehaviour.recruiterWaitingPoint);
+            }
+        });
+
         var waitOrdersState = new FSM_Node();
+        waitOrdersState.SetOnBegin(() =>
+        {
+            state = "waiting orders";
+        });
 
         //EDGES
 
@@ -48,7 +66,6 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
         {
             ()=>transform.position==dronBehaviour.recruiterWaitingPoint
         });
-       
 
         var anyToDie = new FSM_Edge(fsm.anyState, dieState, new List<Func<bool>>(){ () => dronBehaviour.life <= 0f });
         
@@ -64,6 +81,6 @@ public class FSM_GoToWaitingPoint : MonoBehaviour
             waitOrdersState,
         });
         fsm.SetRoot(goToWaitingPointState);
-        evaluator.SetBehaviour(fsm);
+        evaluator.SetBehaviour(fsm, false);
     }
 }

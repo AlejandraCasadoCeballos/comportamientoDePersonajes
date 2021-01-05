@@ -5,17 +5,14 @@ using System;
 
 public class FSM_AttackCAC : FSM_Attack
 {
-    [SerializeField] float attackRange;
     DronADCACBehaviour dronBehaviour;
-
-    [SerializeField] private AudioClip dronAttack;
-
-    private AudioSource dronSoundCAC;
-
+    [SerializeField] float attackRange;
     [SerializeField] float attackSpeed = 1f;
     [SerializeField] float idleDisplacement = 3f;
     [SerializeField] float aimSpeed = 3f;
 
+    [SerializeField] private AudioClip dronAttack;
+    private AudioSource dronSoundCAC;
     float timer;
     bool hasAttacked = false;
 
@@ -54,8 +51,6 @@ public class FSM_AttackCAC : FSM_Attack
 
             Vector3 randomDir = new Vector3(UnityEngine.Random.value, 0f, UnityEngine.Random.value).normalized;
             Vector3 dst = dronBehaviour.transform.forward * idleDisplacement + randomDir * idleDisplacement * 0.5f;
-
-            //dronBehaviour.ai.destination = dronBehaviour.transform.position + dronBehaviour.transform.forward * 5f;
             dronBehaviour.ai.SetDestination(dronBehaviour.transform.position + dst);
         });
         approachEnemyState.SetOnUpdate(() =>
@@ -136,6 +131,6 @@ public class FSM_AttackCAC : FSM_Attack
         attackState.AddEdge(attackToApproach2);
         fsm.SetNodes(new FSM_Node[] { dieState, approachEnemyState, attackState });
         fsm.SetRoot(approachEnemyState);
-        evaluator.SetBehaviour(fsm);
+        evaluator.SetBehaviour(fsm, false);
     }
 }

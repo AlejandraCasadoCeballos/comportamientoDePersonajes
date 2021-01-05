@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   evaluator: {fileID: 0}
+  state: 
 --- !u!114 &4196721105951042990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,8 +640,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   movementSpeed: 5
-  maxLife: 20
-  life: 999
+  maxLife: 30
+  life: 20
   hasRespawned: 0
   ai: {fileID: 0}
   currentBase: {fileID: 0}

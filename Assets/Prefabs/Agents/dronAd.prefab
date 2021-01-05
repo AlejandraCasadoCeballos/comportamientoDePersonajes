@@ -339,11 +339,11 @@ MonoBehaviour:
   hasRespawned: 0
   ai: {fileID: 0}
   currentBase: {fileID: 0}
-  enemyDetectionRange: 30
+  enemyDetectionRange: 15
   protectionRange: 5
   attackDamage: 3
   dronDeath: {fileID: 8300000, guid: f1c8c4c61609e604eb4043d8bb433219, type: 3}
-  recruiterInfluence: 0.5
+  recruiterInfluence: 0.7
   recruiter: {fileID: 0}
   recruiterIsWaiting: 0
   recruiterIsConquering: 0

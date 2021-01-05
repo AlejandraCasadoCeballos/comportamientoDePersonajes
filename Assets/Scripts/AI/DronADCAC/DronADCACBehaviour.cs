@@ -6,20 +6,17 @@ using UnityEngine.AI;
 
 public class DronADCACBehaviour : DronBehaviour
 {
-    [SerializeField] float enemyDetectionRange = 5f;
-    [SerializeField] float protectionRange = 10f;
-    [SerializeField] public float attackDamage = 3f;
-    [SerializeField] private AudioClip dronDeath;
-
-    private AudioSource dronSound;
-
-    [SerializeField] float recruiterInfluence = 0.5f;
-
     UtilitySystem utilitySystem;
     Evaluator evaluator;
     SphereCollider attackRangeTrigger;
-    
 
+    [Header("Parameters")]
+    [SerializeField] float enemyDetectionRange = 5f;
+    [SerializeField] float protectionRange = 10f;
+    [SerializeField] public float attackDamage = 3f;
+    [SerializeField] float recruiterInfluence = 0.5f;
+
+    [Header("Other")]
     public RecruiterBehaviour recruiter = null;
     public bool recruiterIsWaiting = false;
     public bool recruiterIsConquering = false;
@@ -37,15 +34,23 @@ public class DronADCACBehaviour : DronBehaviour
     BaseBehaviour closestAllyBase;
     public BaseBehaviour baseToConquer;
 
+    
+
+    
+    [SerializeField] private AudioClip dronDeath;
+    private AudioSource dronSound;
+
     [Header("UTILITY DISPLAY")]
     [SerializeField] float attackUtility = 0f;
     [SerializeField] float goToWaitingPointUtility = 0f;
     [SerializeField] float conquerUtility = 0f;
     [SerializeField] float defendUtility = 0f;
 
+    int layerMask;
 
     private void Start()
     {
+        layerMask = LayerMask.GetMask("Floor");
         fsm_GoToWaitingPoint = GetComponentInChildren<FSM_GoToWaitingPoint>();
         fsm_Attack = GetComponentInChildren<FSM_Attack>();
         fsm_ConquerOrDefend = GetComponentInChildren<FSM_ConquerOrDefend>();
@@ -138,28 +143,28 @@ public class DronADCACBehaviour : DronBehaviour
 
         UtilityFunction attackEnemyUtility = new UtilityFunction(attackEnemy, enemyDistance).SetOnEvaluateUtility(
             (float per1) => {
-                float u = (1f - per1) * 0.9f + 0.1f;
+                float u = (1f - per1*per1) * 0.9f + 0.1f;
                 attackUtility = u;
                 return u;
                 });
 
         UtilityFunction goWaitingPointUtility = new UtilityFunction(goWaitingPoint, waitingRecruiter).SetOnEvaluateUtility(
             (float per2) => {
-                float u = per2;
+                float u = per2 * recruiterInfluence;
                 goToWaitingPointUtility = u;
                 return u;
                 });
 
         UtilityFunction conquerEnemyBaseUtility = new UtilityFunction(conquerEnemyBase, conquestSignal).SetOnEvaluateUtility(
             (float per3) => {
-                float u = per3;
+                float u = per3 * recruiterInfluence;
                 conquerUtility = u;
                 return u;
                 });
 
         UtilityFunction defendAllyBaseUtility = new UtilityFunction(defendAllyBase, allyBaseIsBeingConquered).SetOnEvaluateUtility(
             (float per4) => {
-                float u = 1f - per4;
+                float u = Mathf.Pow(1f-per4*per4*(3f-2f*per4),2f);
                 defendUtility = u;
                 return u;
                 });
@@ -184,13 +189,10 @@ public class DronADCACBehaviour : DronBehaviour
             
             if(dist <= minDist)
             {
-                if (Physics.Raycast(transform.position, -dir, out hit, protectionRange))
+                if (!Physics.Raycast(transform.position, -dir.normalized, out hit, enemyDetectionRange, layerMask))
                 {
-                    if (hit.transform.gameObject == d.gameObject)
-                    {
-                        minDist = dist;
-                        closestEnemy = d;
-                    }
+                    minDist = dist;
+                    closestEnemy = d;
                 }
             }
         }

@@ -162,17 +162,17 @@ MonoBehaviour:
   team: 0
   movementSpeed: 5
   maxLife: 10
-  life: 999
+  life: 10
   hasRespawned: 0
   ai: {fileID: 0}
   currentBase: {fileID: 0}
-  maxAllies: 1
-  waitPointRange: 5
-  recruitRange: 1.5
-  minPercentageOfAllies: 75
-  minDistToWaitingPoint: 0.5
-  timeLimit: 30
+  maxAllies: 5
+  waitPointRange: 3
+  recruitRange: 1.6
+  minPercentageOfAllies: 50
+  timeLimit: 25
   closestBase: {fileID: 0}
+  safeDistance: 8
   state: 
 --- !u!114 &5596313166753231610
 MonoBehaviour:
